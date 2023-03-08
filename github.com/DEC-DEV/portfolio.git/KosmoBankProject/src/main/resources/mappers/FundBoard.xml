@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.bank.dao.FundBoardDAO">
+
+	<!-- 펀드이야기 리스트 갯수 구하기 -->
+  	<select id="fund_list_cnt" resultType="int">
+  		SELECT COUNT(*) as cnt FROM fund_board
+  	</select>  
+  	
+	 <!-- 펀드이야기 상세페이지 댓글 추가처리 -->
+  	<insert id="fund_coment_add" parameterType="com.spring.bank.dto.Fund_board_commentDTO">
+	  	INSERT INTO fund_board_comment(comment_num, f_num, writer, content) 
+	  	VALUES((SELECT NVL(MAX(comment_num) + 1, 1) FROM fund_board_comment), #{f_num}, #{writer}, #{content})
+  	</insert>
+  	
+  	<!-- 펀드이야기 상세페이지 댓글 목록 가져오기 -->
+  	<select id="fund_coment_list_search" parameterType="int" resultType="com.spring.bank.dto.Fund_board_commentDTO">
+  		SELECT * FROM fund_board_comment WHERE f_num = #{f_num} ORDER BY comment_num ASC
+  	</select>
+	
+  	
+  	<!-- 펀드이야기 수정/삭제시 비밀번호 체크  -->
+  	<select id="fund_update_password_check" parameterType="java.util.Map" resultType="String">
+  		SELECT * FROM fund_board where f_num=#{f_num} AND f_password=#{f_password}
+  	</select>
+  	
+  	<!-- 펀드이야기 리스트 불러오기 -->
+  	<select id="fund_list_search" parameterType="java.util.Map" resultType="com.spring.bank.dto.Fund_boardDTO">
+  		SELECT * 
+  		  FROM (SELECT A.*, rownum as rn 
+				  FROM (SELECT f_num, f_title, f_content, f_name, f_password, f_date
+					   	  FROM fund_board F 
+						 WHERE f_state = 1
+						 ORDER BY f_num DESC) A )
+		 WHERE rn BETWEEN #{start} AND #{end}
+  	</select>
+
+  	<!-- 펀드이야기 작성처리 -->
+  	<insert id="fund_insert_action" parameterType="com.spring.bank.dto.Fund_boardDTO">
+	  	INSERT INTO fund_board(f_num, f_title, f_content, f_name, f_password) 
+	    VALUES((SELECT NVL(MAX(f_num) + 1, 1) FROM fund_board), #{f_title}, #{f_content}, #{f_name}, #{f_password})
+  	</insert>
+  	  	  	
+  	<!-- 펀드이야기 상세페이지 -->
+  	<select id="fund_detail_search" parameterType="int" resultType="com.spring.bank.dto.Fund_boardDTO">
+  		SELECT * FROM fund_board where f_num=#{f_num}
+  	</select>
+
+  	<!-- 펀드이야기 수정처리 -->
+  	<update id="fund_update_action" parameterType="com.spring.bank.dto.Fund_boardDTO">
+  		UPDATE fund_board 
+  		   SET f_password=#{f_password}, f_title=#{f_title}, f_content=#{f_content} WHERE f_num=#{f_num}
+  	</update>
+  	
+  	<!-- 펀드이야기 삭제처리 -->
+  	<update id="fund_delete_action" parameterType="int">
+  		UPDATE fund_board 
+		   SET f_state=0 WHERE f_num=#{f_num}
+  	</update>  
+
+</mapper>

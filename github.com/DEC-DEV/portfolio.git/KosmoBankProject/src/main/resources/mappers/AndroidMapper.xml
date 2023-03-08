@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+    
+<mapper namespace="com.spring.bank.dao.AndroidDAO">
+
+	<select id="pwdCheck" parameterType="String" resultType="String">
+  		SELECT password FROM member WHERE id=#{id}
+  	</select>
+
+	<select id="authorityCheck" resultType="String">
+		SELECT authority FROM member WHERE id=#{id}
+	</select>
+	
+	<select id="getMemberInfo" resultType="com.spring.bank.dto.CustomerDTO">
+		SELECT * FROM member WHERE id=#{id}
+	</select>
+	
+	<insert id="join" parameterType="com.spring.bank.dto.CustomerDTO">
+		INSERT INTO member(id, password, name, zipcode, address, address_detail, phone, email, enabled)
+		VALUES(#{id}, #{password}, #{name}, #{zipcode}, #{address}, #{address_detail}, #{phone}, #{email}, 1)
+	</insert>
+	
+	<select id="fund_list" resultType="com.spring.bank.dto.FundDTO">
+      SELECT f.f_num, f.f_title, f.f_start_date, f.f_content 
+      FROM FUND_LIST f
+      JOIN MEMBER m
+      ON f.id = m.id
+      WHERE f.id=#{id}
+   </select>
+
+</mapper>

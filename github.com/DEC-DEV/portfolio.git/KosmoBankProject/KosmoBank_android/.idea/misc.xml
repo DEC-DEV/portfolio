@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="..\:/Dev105/workspace2/BankProjectKosmo/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_accountdetail.xml" value="0.2755208333333333" />
+        <entry key="..\:/Dev105/workspace2/BankProjectKosmo/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_main.xml" value="0.36614583333333334" />
+        <entry key="..\:/Dev105/workspace2/BankProjectKosmo/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_mypage.xml" value="0.33" />
+        <entry key="..\:/Dev105/workspace2/BankProjectKosmo/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_regaccount.xml" value="0.30277777777777776" />
+        <entry key="..\:/Dev105/workspace2/BankProjectKosmo/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_searchaccount.xml" value="0.36614583333333334" />
+        <entry key="..\:/Dev105/workspace2/BankProjectKosmo/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_searchaccount_list.xml" value="0.29010416666666666" />
+        <entry key="..\:/Dev105/workspace2/BankProjectKosmo/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_signin.xml" value="0.36614583333333334" />
+        <entry key="..\:/Dev105/workspace2/BankProjectKosmo/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_transfer.xml" value="0.25" />
+        <entry key="..\:/Dev105/workspace2/BankProjectKosmo/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_transfer2.xml" value="0.1" />
+        <entry key="..\:/Dev105/workspace_android/KosmoBank/app/src/main/res/drawable/ic_launcher_background.xml" value="0.1" />
+        <entry key="..\:/Dev105/workspace_android/KosmoBank/app/src/main/res/drawable/ic_launcher_foreground.xml" value="0.1" />
+        <entry key="..\:/Dev105/workspace_android/KosmoBank/app/src/main/res/layout/activity_main.xml" value="0.1" />
+        <entry key="..\:/Dev105/workspace_android/KosmoBank/app/src/main/res/layout/activity_mypage.xml" value="0.36614583333333334" />
+        <entry key="..\:/Dev105/workspace_android/KosmoBank/app/src/main/res/layout/activity_signin.xml" value="0.33" />
+        <entry key="..\:/Dev105/workspace_android/KosmoBank/app/src/main/res/layout/custom_bar.xml" value="0.36614583333333334" />
+        <entry key="..\:/Users/KOSMO/git/BankProjectKosmo/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_join.xml" value="0.1" />
+        <entry key="..\:/Users/KOSMO/git/BankProjectKosmo/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_signin.xml" value="0.1" />
+        <entry key="..\:/Users/Kosmo/git/BankProjectKosmo1/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_accountcancel.xml" value="0.17046605876393112" />
+        <entry key="..\:/Users/Kosmo/git/BankProjectKosmo1/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_accountdetail.xml" value="0.17046605876393112" />
+        <entry key="..\:/Users/Kosmo/git/BankProjectKosmo1/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_accounthistory.xml" value="0.10277777777777777" />
+        <entry key="..\:/Users/Kosmo/git/BankProjectKosmo1/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_cloth.xml" value="0.1" />
+        <entry key="..\:/Users/Kosmo/git/BankProjectKosmo1/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_cloth_detail.xml" value="0.1" />
+        <entry key="..\:/Users/Kosmo/git/BankProjectKosmo1/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_deposits_list.xml" value="0.2694746376811594" />
+        <entry key="..\:/Users/Kosmo/git/BankProjectKosmo1/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_fund_add.xml" value="0.2755208333333333" />
+        <entry key="..\:/Users/Kosmo/git/BankProjectKosmo1/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_join.xml" value="0.17046605876393112" />
+        <entry key="..\:/Users/Kosmo/git/BankProjectKosmo1/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_loans_list.xml" value="0.2755208333333333" />
+        <entry key="..\:/Users/Kosmo/git/BankProjectKosmo1/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_main.xml" value="0.17046605876393112" />
+        <entry key="..\:/Users/Kosmo/git/BankProjectKosmo1/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_mypage.xml" value="0.17046605876393112" />
+        <entry key="..\:/Users/Kosmo/git/BankProjectKosmo1/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_regaccount.xml" value="0.17046605876393112" />
+        <entry key="..\:/Users/Kosmo/git/BankProjectKosmo1/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_savings.xml" value="0.11778115501519756" />
+        <entry key="..\:/Users/Kosmo/git/BankProjectKosmo1/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_savings_list.xml" value="0.2694746376811594" />
+        <entry key="..\:/Users/Kosmo/git/BankProjectKosmo1/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_searchaccount.xml" value="0.17046605876393112" />
+        <entry key="..\:/Users/Kosmo/git/BankProjectKosmo1/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_searchaccount2.xml" value="0.1" />
+        <entry key="..\:/Users/Kosmo/git/BankProjectKosmo1/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_searchaccount_list.xml" value="0.17046605876393112" />
+        <entry key="..\:/Users/Kosmo/git/BankProjectKosmo1/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_searchaccount_list2.xml" value="0.1" />
+        <entry key="..\:/Users/Kosmo/git/BankProjectKosmo1/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_signin.xml" value="0.17046605876393112" />
+        <entry key="..\:/Users/Kosmo/git/BankProjectKosmo1/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_tech_detail.xml" value="0.1" />
+        <entry key="..\:/Users/Kosmo/git/BankProjectKosmo1/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_transfer.xml" value="0.1" />
+        <entry key="..\:/Users/Kosmo/git/BankProjectKosmo1/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_transfer2.xml" value="0.17046605876393112" />
+        <entry key="..\:/Users/LJH_Note/git/BankProjectKosmo/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_deposits_list.xml" value="0.36666666666666664" />
+        <entry key="..\:/Users/LJH_Note/git/BankProjectKosmo/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_fund_add.xml" value="0.16354166666666667" />
+        <entry key="..\:/Users/LJH_Note/git/BankProjectKosmo/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_fund_list.xml" value="0.1743659420289855" />
+        <entry key="..\:/Users/LJH_Note/git/BankProjectKosmo/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_health.xml" value="0.1" />
+        <entry key="..\:/Users/LJH_Note/git/BankProjectKosmo/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_health_detail.xml" value="0.29375" />
+        <entry key="..\:/Users/LJH_Note/git/BankProjectKosmo/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_loans_list.xml" value="0.22" />
+        <entry key="..\:/Users/LJH_Note/git/BankProjectKosmo/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_savings.xml" value="0.3333333333333333" />
+        <entry key="..\:/Users/LJH_Note/git/BankProjectKosmo/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_savings_detail.xml" value="0.3541666666666667" />
+        <entry key="..\:/Users/LJH_Note/git/BankProjectKosmo/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_savings_list.xml" value="0.16666666666666666" />
+        <entry key="..\:/Users/LJH_Note/git/BankProjectKosmo/KosmoBankProject/KosmoBank_android/app/src/main/res/layout/activity_searchaccount.xml" value="0.3333333333333333" />
+      </map>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="Android Studio default JDK" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/build/classes" />
+  </component>
+  <component name="ProjectType">
+    <option name="id" value="Android" />
+  </component>
+</project>

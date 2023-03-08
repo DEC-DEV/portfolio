@@ -1,0 +1,21 @@
+@charset "UTF-8";
+
+
+
+.table {
+	padding-left : 200px;
+	padding-right : 200px;
+}
+
+.table {
+	width : 1000;
+	height : 100;
+	text-align : center;
+	border : 1px solid black;
+	color : black;
+}
+
+.table th {
+	height : 60px;
+	font-size : 100;
+}

@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.bank.dao.AdminItemDAO">
+	
+	<!-- 관리자 대출 상품 등록 -->
+	<insert id="loan_pro_add" parameterType="com.spring.bank.dto.Loans_itemDTO">
+		INSERT INTO loans_item(d_name, d_interest_rate, d_min_price, d_max_price, d_min_date, d_max_date, d_prepayment_fee, d_repay, d_explanation1)
+		VALUES(#{d_name}, #{d_interest_rate}, #{d_min_price}, #{d_max_price}, #{d_min_date}, #{d_max_date}, #{d_prepayment_fee}, #{d_repay}, #{d_explanation1})
+	</insert>
+	
+	<!-- 관리자 대출 상품 조회 -->
+	<select id="loan_pro_list" resultType="com.spring.bank.dto.Loans_itemDTO">
+	<![CDATA[
+		SELECT * 
+    	FROM (
+       		SELECT A.*, rownum as rn 
+       		FROM (
+           			SELECT d_name, d_interest_rate, d_min_price, d_max_price, d_min_date, d_max_date, d_repay, d_prepayment_fee, d_explanation1
+           			FROM LOANS_ITEM  
+            		ORDER BY d_name DESC
+	         	) A 
+	      ) 
+   		WHERE rn >= #{start} AND rn <= #{end}
+   		]]>
+	</select>
+	
+	<!-- 상품갯수 -->
+	<select id="loan_cnt" resultType="int">
+		SELECT COUNT(*) as cnt FROM LOANS_ITEM
+	</select>
+	
+	<!-- 관리자 대출 상품 상세페이지 -->
+	<select id="loan_pro_detail" resultType="com.spring.bank.dto.Loans_itemDTO">
+		SELECT * FROM LOANS_ITEM
+		WHERE d_name = #{d_name}
+	</select>
+	
+	<!-- 관리자 대출 상품 수정 -->
+	<update id="loan_pro_update" parameterType="com.spring.bank.dto.Loans_itemDTO">
+		UPDATE LOANS_ITEM
+		SET d_name=#{d_name}, d_interest_rate=#{d_interest_rate}, d_min_price=#{d_min_price}, d_max_price=#{d_max_price}, d_min_date=#{d_min_date}, 
+        d_max_date=#{d_max_date}, d_repay=#{d_repay}, d_prepayment_fee=#{d_prepayment_fee}, d_explanation1=#{d_explanation1}
+		WHERE d_name=#{d_name}
+	</update>
+	
+	<!-- 관리자 대출 상품 삭제 -->
+	<delete id="loan_pro_delete" parameterType="String">
+		DELETE FROM LOANS_ITEM
+		WHERE d_name = #{d_name}
+	</delete>
+	
+	<!-- 관리자 대출 신청 목록 -->
+	<select id="loan_pro_detail_list" resultType="com.spring.bank.dto.LoansDTO">
+	<![CDATA[
+		SELECT * 
+    	FROM (
+       		SELECT A.*, rownum as rn 
+       		FROM (
+           		SELECT d_num, d_name, account_num, d_state, d_start_date, d_end_date, d_month, d_repay, d_rate, d_amount,
+           			   d_balance, d_balance_rate, d_loan_balance, d_loan_rate, d_principal, d_principal_rate, d_transfernum, d_prepayment_fee
+           		FROM loans
+            	ORDER BY d_num DESC
+	         	) A 
+	      ) 
+   		WHERE rn >= #{start} AND rn <= #{end}
+   		]]>
+	</select>
+	
+	<!-- 관리자 대출 신청 상세페이지 -->
+	<select id="loan_detail" resultType="com.spring.bank.dto.LoansDTO">
+		SELECT * FROM loans
+		WHERE d_num = #{d_num}
+	</select>
+	
+	<!-- 관리자 대출 신청 수정 -->
+	<update id="loan_update_action" parameterType="com.spring.bank.dto.LoansDTO">
+		UPDATE loans
+		SET d_num=#{d_num}, d_name=#{d_name}, account_num=#{account_num}, d_start_date=#{d_start_date},
+        d_end_date=#{d_end_date}, d_month=#{d_month}, d_repay=#{d_repay}, d_rate=#{d_rate}
+		WHERE d_num=#{d_num}
+	</update>
+	
+	<!-- 관리자 대출 신청 삭제 -->
+	<delete id="loan_delete_action" parameterType="int">
+		DELETE FROM loans WHERE d_num = #{d_num}
+	</delete>
+	
+	<!-- 관리자 대출 신청 승인 -->
+	<update id="loan_approve" parameterType="java.util.Map">
+		UPDATE loans
+ 		SET d_state = 1
+ 		WHERE d_num=#{d_num} AND d_name=#{d_name}
+	</update>
+	
+	<!-- 관리자 대출 신청 거절 -->
+	<update id="loan_delete" parameterType="java.util.Map">
+		UPDATE loans
+ 		SET d_state = 2
+ 		WHERE d_num=#{d_num} AND d_name=#{d_name}
+	</update>
+	
+</mapper>

@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.bank.dao.AdminCsCenterDAO">
+
+	<!-- 공지글 리스트 갯수 구하기 -->
+  	<select id="notice_list_cnt" resultType="int">
+  		SELECT COUNT(*) as cnt FROM notice
+  	</select>  
+
+  	<!-- 공지글 리스트 불러오기 -->
+  	<select id="notice_list_search" parameterType="java.util.Map" resultType="com.spring.bank.dto.NoticeDTO">
+  		SELECT * 
+  		  FROM (SELECT A.*, rownum as rn 
+				  FROM (SELECT n_board_num, n_title, n_content, n_writer, n_date, n_views
+					   	  FROM notice B 
+						 ORDER BY n_board_num DESC) A )
+		 WHERE rn BETWEEN #{start} AND #{end}
+  	</select>
+  	
+  	<!-- 공지글 상세 조회 -->
+  	<select id="notice_detail_search" parameterType="int" resultType="com.spring.bank.dto.NoticeDTO">
+  		SELECT * FROM notice where n_board_num=#{n_board_num}
+  	</select>
+  	
+  	<!-- 공지글 작성처리 -->
+  	<insert id="notice_insert_action" parameterType="com.spring.bank.dto.NoticeDTO">
+	  	INSERT INTO notice(n_board_num, n_title, n_content, n_writer) 
+	    VALUES((SELECT NVL(MAX(n_board_num) + 1, 1) FROM notice), #{n_title}, #{n_content}, #{n_writer})
+  	</insert>
+  	
+  	<!-- 공지글 수정처리 -->
+  	<update id="notice_update_action" parameterType="com.spring.bank.dto.NoticeDTO">
+  		UPDATE notice 
+  		   SET n_writer=#{n_writer}, n_title=#{n_title}, n_content=#{n_content} WHERE n_board_num=#{n_board_num}
+  	</update>
+  	
+  	<!-- 공지글 삭제처리 -->
+  	<delete id="notice_delete_action" parameterType="com.spring.bank.dto.NoticeDTO">
+		DELETE from notice 
+		 WHERE n_board_num=#{n_board_num}
+  	</delete>
+</mapper>

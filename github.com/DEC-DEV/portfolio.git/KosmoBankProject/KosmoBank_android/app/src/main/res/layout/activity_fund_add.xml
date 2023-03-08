@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <!-- 상품추가 화면 -->
+    <EditText
+        android:id="@+id/editFundNum"
+        android:hint="펀드번호"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="number" />
+
+    <EditText
+        android:id="@+id/editFundName"
+        android:hint="펀드명"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="textPersonName" />
+
+    <EditText
+        android:id="@+id/editFundStart"
+        android:hint="시작일"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text" />
+
+    <EditText
+        android:id="@+id/editFundContent"
+        android:hint="상품내용"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:inputType="text" />
+
+    <Button
+        android:id="@+id/btnSave"
+        android:text="저장"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
+</LinearLayout>

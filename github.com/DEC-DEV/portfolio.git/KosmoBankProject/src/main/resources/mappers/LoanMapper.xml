@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+
+<mapper namespace="com.spring.bank.dao.LoanDAO">
+
+	<!-- 대출원금조회 -->
+  	<select id="loan_principal_search" parameterType="String" resultType="com.spring.bank.dto.LoansDTO">
+  		SELECT d_balance,d_prepayment_fee FROM loans WHERE account_num=#{account_num}
+  	</select>
+  	
+  	<!-- 대출 신규 신청(계좌정보) -->
+  	<select id="loan_apply_account_info" parameterType="String" resultType="com.spring.bank.dto.Loan_applyDTO">
+  		SELECT id, account_num, account_password, name FROM account_info WHERE id=#{customerID} AND account_name='미정' 
+  		 ORDER BY new_date DESC
+  	</select>
+  	<!--  대출 신규 신청시 acount_info 정보 update -->
+ 	<update id="loans_accuont_update" parameterType="java.util.Map">
+ 		update account_info set account_name=#{account_name},account_type ='대출', new_date=sysdate,balance = #{balance} where account_num =#{account_num}
+ 	</update>
+  	<!-- 대출 신규 신청(상품정보) -->
+  	<select id="loan_apply_product_info" parameterType="String" resultType="com.spring.bank.dto.Loan_applyDTO">
+  		SELECT d_name, d_repay, d_interest_rate, d_prepayment_fee FROM loans_item WHERE d_name=#{d_name}
+  	</select>
+  	
+  	<!-- 대출 신규 신청(비번체크) -->
+  	<select id="loan_apply_password_check" parameterType="java.util.Map" resultType="String">
+  		SELECT account_password 
+  		  FROM account_info 
+  		 WHERE account_num=#{account_num}
+  		   AND account_password=#{password}
+  	</select>
+  	
+  	<!-- 대출 신규 신청(insert) -->
+  	<insert id="loan_apply_insert" parameterType="com.spring.bank.dto.LoansDTO">
+  		INSERT INTO loans(d_num, id, d_name, account_num, d_start_date, d_end_date, d_month, d_repay, d_rate, d_amount, d_prepayment_fee, d_balance)
+  		VALUES((SELECT NVL(MAX(d_num) + 1, 1) FROM loans), #{id}, #{d_name}, #{account_num}, #{d_start_date}, #{d_end_date}, #{d_month}, #{d_repay}, #{d_rate}, #{d_amount}, #{d_prepayment_fee}, #{d_amount})
+  	</insert>
+  	
+  	<!-- 대출 계좌 조회 -->
+  	<select id="loan_account_search" parameterType="String" resultType="com.spring.bank.dto.LoansDTO">
+  		SELECT d_num, d_name, account_num, d_state, d_month, d_repay, d_rate, d_balance, d_amount, d_start_date, d_count FROM loans WHERE id=#{id} AND d_state = 1
+  	</select>
+  	
+  	<!-- 대출 계좌 조회 건수 구하기 -->
+  	<select id="loan_account_search_count" parameterType="String" resultType="int">
+  		SELECT COUNT(*) FROM loans WHERE id=#{id}
+  	</select>
+  	
+  	<!-- 대출 상품 목록 -->
+  	<select id="loan_pro_list" resultType="com.spring.bank.dto.Loans_itemDTO">
+  		SELECT d_name, d_interest_rate, d_min_price, d_max_price, d_min_date, d_max_date, d_prepayment_fee, d_repay FROM loans_item
+  	</select>
+  	
+  	<!-- 대출 상환 결제 계좌 조회 -->
+  	<select id="account_search" parameterType="String" resultType="com.spring.bank.dto.Loan_applyDTO">
+  		SELECT account_num FROM account_info WHERE id=#{id} AND balance > 0 AND account_state = '정상'
+  	</select>
+  	
+  	<!-- 출금계좌 잔고 조회 -->
+  	<select id="loan_account_info_search" parameterType="String" resultType="int">
+  		SELECT balance FROM account_info WHERE account_num = #{account_num}
+  	</select>
+  	
+  	<!-- loans 테이블 상환 update -->
+  	<update id="loan_paid" parameterType="com.spring.bank.dto.Loans_paidDTO">
+  		UPDATE loans SET d_balance = d_balance - #{originRepay},
+  						 d_loan_balance = d_loan_balance + #{originRepay},
+  						 d_loan_rate = d_loan_rate + #{interestRepay},
+  						 d_principal = d_principal + #{originRepay},
+  						 d_principal_rate = d_principal_rate + #{interestRepay},
+  						 d_count = d_count + 1
+  				   WHERE d_num = #{d_num}
+  	</update>
+  	<!-- transfer_info 테이블 insert -->
+  	<insert id="loan_transfer_info_insert" parameterType="com.spring.bank.dto.Loans_paidDTO">
+  		INSERT INTO transfer_info(transfer_num, account_num, recipient_name, money, in_out, in_out_date, id)
+  		VALUES((SELECT NVL(MAX(transfer_num) + 1, 1) FROM transfer_info), #{account_num}, #{recipient}, #{totalRepay}, #{in_out}, sysdate, #{id})
+  	</insert>
+  	<!-- loan_history 테이블 insert -->
+	<insert id="loan_history_insert" parameterType="com.spring.bank.dto.Loans_paidDTO">
+		INSERT INTO loans_history(d_his_num, d_num, d_account_type, d_his_date, d_his_type, d_his_amount, d_his_balance, transfer_num)
+		VALUES((SELECT NVL(MAX(d_his_num) + 1, 1) FROM loans_history), #{d_num}, #{account_num}, sysdate, #{d_repay}, #{originRepay}, #{remainAmount}, (SELECT NVL(MAX(transfer_num), 1) FROM transfer_info))
+	</insert>  	
+  	<!-- account_info 테이블 update -->
+  	<update id="loan_account_info_update" parameterType="com.spring.bank.dto.Loans_paidDTO">
+  		UPDATE account_info SET balance = balance - #{totalRepay} WHERE account_num = #{account_num}
+  	</update>
+  	
+  	<!-- 대출 상환 내역 조회 -->
+  	<select id="loan_paid_history" parameterType="Integer" resultType="com.spring.bank.dto.Loans_hisDTO">
+  		SELECT d_his_num, d_num, d_his_date, d_his_type, d_his_amount, d_his_balance, transfer_num, d_account_type
+  		  FROM loans_history
+  		 WHERE d_num=#{d_num}
+  	</select>
+  	
+  	<!-- 대출 해지 - 대출 잔금 조회 -->
+  	<select id="loan_cancel_money_search" parameterType="Integer" resultType="Integer">
+  		SELECT d_balance FROM loans WHERE d_num=#{d_num}
+  	</select>
+  	
+  	<!-- 대출 해지 -->
+  	<update id="loan_cancel" parameterType="Integer">
+  		UPDATE loans SET d_state = 2 WHERE d_num=#{d_num}
+  	</update>
+  	
+  	<!-- 대출 해지 조회 -->
+  	<select id="loan_cancel_search" parameterType="String" resultType="com.spring.bank.dto.LoansDTO">
+  		SELECT d_num, d_name, account_num, d_state, d_start_date, d_end_date, d_month, d_repay, d_rate, d_amount, d_balance, d_loan_balance, d_prepayment_fee
+  		  FROM loans
+  		 WHERE id=#{id}
+  		   AND d_state=2
+  	</select>
+</mapper>

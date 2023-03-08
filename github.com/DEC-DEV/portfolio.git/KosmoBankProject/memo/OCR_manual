@@ -1,0 +1,46 @@
+---------------------안드로이드 start-----------------------------
+1. 구글 cloud sdk 설치 후 계정 연동 설치 안내  (참고링크) --> https://majjangjjang.tistory.com/163?category=963168
+
+
+2. pom.xml에 dependency 추가
+
+	<dependency>
+	  <groupId>org.springframework.cloud</groupId>
+	  <artifactId>spring-cloud-gcp-starter-vision</artifactId>
+	</dependency>
+	
+	<dependencyManagement>
+	  <dependencies>
+	    <dependency>
+	      <groupId>org.springframework.cloud</groupId>
+	      <artifactId>spring-cloud-gcp-dependencies</artifactId>
+	      <version>1.2.8.RELEASE</version>
+	      <type>pom</type>
+	      <scope>import</scope>
+	    </dependency>
+	  </dependencies>
+	</dependencyManagement>
+	
+	 두번째는 dependencies 밖으로 따로 빼야함
+	 
+3. 스프링 AndroidController 환경변수 설정  (참고링크) --> https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=hsmang&logNo=220851657991
+
+
+<!-- 참고 -->
+- key가 들어있는 "myocr-349805-b8cadddac4ae" 파일이 프로젝트에 포함되어 있어야함
+- 연결한 디바이스가 와이파이에 연결되어 있어야함
+
+---------------------안드로이드 end-----------------------------
+
+
+---------------------웹 start-----------------------------
+1. cloud api 환경변수 설정
+	https://jungwoon.github.io/google%20cloud/2018/01/09/Vision-Api.html
+	https://m.blog.naver.com/PostView.naver?isHttpsRedirect=true&blogId=chandong83&logNo=220981452650
+	
+	서비스 수정 ---절대경로 지정
+	String realDir = "C:\\Users\\LJH_Note\\git\\BankProjectKosmo\\KosmoBankProject\\src\\main\\webapp\\resources\\upload";
+		 
+---------------------웹 end-----------------------------
+		
+		

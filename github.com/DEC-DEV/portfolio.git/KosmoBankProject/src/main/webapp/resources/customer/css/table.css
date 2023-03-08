@@ -1,0 +1,15 @@
+@charset "UTF-8";
+
+.customer_table {
+	border-collapse: collapse; 
+	width: 100%; 
+}
+
+.customer_table th, td { 
+	padding: 10px; 
+	border-bottom: 1px solid #CD5C5C; 
+}
+
+.customer_table tr:hover { 
+	background-color: #F5F5F5; 
+}

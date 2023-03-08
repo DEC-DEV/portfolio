@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.bank.dao.CsCenterDAO">
+
+	<!-- 상담글 리스트 갯수 구하기 -->
+  	<select id="counsel_list_cnt" resultType="int">
+  		SELECT COUNT(*) as cnt FROM counseling
+  	</select>  
+	
+	 <!-- 상담글 상세페이지 댓글 추가처리 -->
+  	<insert id="counsel_coment_add" parameterType="com.spring.bank.dto.CounselCommentDTO">
+	  	INSERT INTO counseling_comment(comment_num, b_num, writer, content) 
+	  	VALUES((SELECT NVL(MAX(comment_num) + 1, 1) FROM counseling_comment), #{b_num}, #{writer}, #{content})
+  	</insert>
+  	
+  	<!-- 상담글 상세페이지 댓글 목록 가져오기 -->
+  	<select id="counsel_coment_list_search" parameterType="int" resultType="com.spring.bank.dto.CounselCommentDTO">
+  		SELECT * FROM counseling_comment WHERE b_num = #{b_num} ORDER BY comment_num ASC
+  	</select>
+  	
+  	<!-- 상담글 수정/삭제시 비밀번호 체크  -->
+  	<select id="counsel_update_password_check" parameterType="java.util.Map" resultType="String">
+  		SELECT * FROM counseling where b_num=#{b_num} AND b_password=#{b_password}
+  	</select>
+  	
+  	<!-- 상담글 리스트 불러오기 -->
+  	<select id="counsel_list_search" parameterType="java.util.Map" resultType="com.spring.bank.dto.CounselDTO">
+  		SELECT * 
+  		  FROM (SELECT A.*, rownum as rn 
+				  FROM (SELECT b_num, b_title, b_content, b_name, b_password, b_date, (SELECT COUNT(*) 
+				  																		 FROM counseling_comment 
+																					    WHERE b_num = b.b_num) b_comment_count 
+					   	  FROM counseling B 
+						 WHERE b_state = 1
+						 ORDER BY b_num DESC) A )
+		 WHERE rn BETWEEN #{start} AND #{end}
+  	</select>
+
+  	<!-- 상담글 작성처리 -->
+  	<insert id="counsel_insert_action" parameterType="com.spring.bank.dto.CounselDTO">
+	  	INSERT INTO counseling(b_num, b_title, b_content, b_name, b_password) 
+	    VALUES((SELECT NVL(MAX(b_num) + 1, 1) FROM counseling), #{b_title}, #{b_content}, #{b_name}, #{b_password})
+  	</insert>
+  	  	  	
+  	<!-- 상담글 상세페이지 -->
+  	<select id="counsel_detail_search" parameterType="int" resultType="com.spring.bank.dto.CounselDTO">
+  		SELECT * FROM counseling where b_num=#{b_num}
+  	</select>
+
+  	<!-- 상담글 수정처리 -->
+  	<update id="counsel_update_action" parameterType="com.spring.bank.dto.CounselDTO">
+  		UPDATE counseling 
+  		   SET b_password=#{b_password}, b_title=#{b_title}, b_content=#{b_content} WHERE b_num=#{b_num}
+  	</update>
+  	
+  	<!-- 상담글 삭제처리 -->
+  	<update id="counsel_delete_action" parameterType="int">
+  		UPDATE counseling 
+		   SET b_state=0 WHERE b_num=#{b_num}
+  	</update>  
+
+	<!-- 공지글 리스트 갯수 구하기 -->
+  	<select id="notice_list_cnt" resultType="int">
+  		SELECT COUNT(*) as cnt FROM notice
+  	</select>  
+
+  	<!-- 공지글 리스트 불러오기 -->
+  	<select id="notice_list_search" parameterType="java.util.Map" resultType="com.spring.bank.dto.NoticeDTO">
+  		SELECT * 
+  		  FROM (SELECT A.*, rownum as rn 
+				  FROM (SELECT n_board_num, n_title, n_content, n_writer, n_date, n_views
+					   	  FROM notice B 
+						 ORDER BY n_board_num DESC) A )
+		 WHERE rn BETWEEN #{start} AND #{end}
+  	</select>
+  	
+  	<!-- 공지글 상세 조회 -->
+  	<select id="notice_detail_search" parameterType="int" resultType="com.spring.bank.dto.NoticeDTO">
+  		SELECT * FROM notice where n_board_num=#{n_board_num}
+  	</select>
+  	
+  	<!-- 공지글 상세 조회시 조회수 증가-->
+  	<update id="notice_detail_view_add" parameterType="int">
+  		UPDATE notice 
+		   SET n_views = (SELECT NVL(MAX(n_views) + 1, 1) FROM notice WHERE n_board_num=#{n_board_num}) WHERE n_board_num=#{n_board_num}
+  	</update>    	
+
+</mapper>

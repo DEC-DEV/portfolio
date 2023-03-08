@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.bank.dao.AdminTotalDAO">
+	
+	
+	<select id="productsignTotal" resultType="com.spring.bank.dto.TotalChartDTO">
+		select ( select count(account_num) from account_info where account_type='예금' ) as depositCnt,
+				( select count(account_num) from account_info where account_type='적금' ) as savingCnt,
+				( select count(account_num) from account_info where account_type='대출' ) as laonsCnt
+		from dual
+	</select>
+	
+	<select id="deposit_blanace" parameterType="java.util.Map" resultType="com.spring.bank.dto.TotalChartDTO">
+		<![CDATA[
+		select count(ACCOUNT_NUM) depositCnt ,sum(y_BALANCE) depoistBalance,
+    to_char(y_join_date,'yyyy-MM') yymm from deposit  group by to_char(y_join_date,'yyyy-MM')
+    	]]>
+	</select>
+		<select id="saving_blanace" parameterType="java.util.Map" resultType="com.spring.bank.dto.TotalChartDTO">
+		<![CDATA[
+		select count(account_num) savingCnt,sum(i_balance) savingBalance,
+    to_char(i_join_date,'yyyy-MM') yymm  from installment_savings group by to_char(i_join_date,'yyyy-MM')
+    	]]>
+	</select>
+	
+	<select id="loans_product_blanace" resultType="com.spring.bank.dto.TotalChartDTO">
+		SELECT 
+       
+         CASE d_start_date  WHEN '2022-01' THEN LOANS_SUM ELSE 0 END jan,
+         CASE d_start_date  WHEN '2022-02' THEN LOANS_SUM ELSE 0 END Feb,
+         CASE d_start_date  WHEN '2022-03' THEN LOANS_SUM ELSE 0 END Mar,
+         CASE d_start_date  WHEN '2022-04' THEN LOANS_SUM ELSE 0 END Apr,
+         CASE d_start_date  WHEN '2022-05' THEN LOANS_SUM ELSE 0 END May,
+         CASE d_start_date  WHEN '2022-06' THEN LOANS_SUM ELSE 0 END Jun,
+         CASE d_start_date  WHEN '2022-07' THEN LOANS_SUM ELSE 0 END Jul,
+         CASE d_start_date  WHEN '2022-08' THEN LOANS_SUM ELSE 0 END Aug,
+         CASE d_start_date  WHEN '2022-09' THEN LOANS_SUM ELSE 0 END Sep,
+         CASE d_start_date  WHEN '2022-10' THEN LOANS_SUM ELSE 0 END Oct,
+         CASE d_start_date  WHEN '2022-11' THEN LOANS_SUM ELSE 0 END Nov,
+         CASE d_start_date  WHEN '2022-12' THEN LOANS_SUM ELSE 0 END Dec,
+         D_NAME
+    FROM(
+      select 
+		a.d_name,
+		sum(a.d_balance) as loans_sum,
+		to_char( a.d_start_date,'yyyy-MM')  d_start_date
+		from loans a, loans_item b where a.d_name = b.d_name group by a.d_name,to_char( a.d_start_date,'yyyy-MM') ORDER BY D_NAME
+		) A
+	</select>
+	<select id="fund_product_blanace" resultType="com.spring.bank.dto.TotalChartDTO">
+	 	select 
+	         CASE f_start_date  WHEN '2022-01' THEN fund_sum ELSE 0 END jan,
+	         CASE f_start_date  WHEN '2022-02' THEN fund_sum ELSE 0 END Feb,
+	         CASE f_start_date  WHEN '2022-03' THEN fund_sum ELSE 0 END Mar,
+	         CASE f_start_date  WHEN '2022-04' THEN fund_sum ELSE 0 END Apr,
+	         CASE f_start_date  WHEN '2022-05' THEN fund_sum ELSE 0 END May,
+	         CASE f_start_date  WHEN '2022-06' THEN fund_sum ELSE 0 END Jun,
+	         CASE f_start_date  WHEN '2022-07' THEN fund_sum ELSE 0 END Jul,
+	         CASE f_start_date  WHEN '2022-08' THEN fund_sum ELSE 0 END Aug,
+	         CASE f_start_date  WHEN '2022-09' THEN fund_sum ELSE 0 END Sep,
+	         CASE f_start_date  WHEN '2022-10' THEN fund_sum ELSE 0 END Oct,
+	         CASE f_start_date  WHEN '2022-11' THEN fund_sum ELSE 0 END Nov,
+	         CASE f_start_date  WHEN '2022-12' THEN fund_sum ELSE 0 END Dec,
+	         A.f_name
+	    from( 
+	      select sum(b.f_money) as fund_sum ,a.f_title as f_name,
+	    TO_CHAR(TO_DATE(f_start_date), 'yyyy-MM') f_start_date
+	    from fund_list a, fund_member b where a.f_num = b.f_num group by a.f_title, TO_CHAR(TO_DATE(f_start_date), 'yyyy-MM') ORDER BY a.f_title ) A
+	</select>
+	
+	<select id="loansTotal" resultType="com.spring.bank.dto.TotalChartDTO">
+		select count(d_name) total,d_name from loans group by d_name
+	</select>
+	
+	<select id="fundTotal"  resultType="com.spring.bank.dto.TotalChartDTO">
+		select count(b.f_title) total,b.f_title as f_name from fund_member a, fund_list b where a.f_num = b.f_num group by b.f_title
+	</select>
+	
+	<select id="loansbarChartTotal" resultType="com.spring.bank.dto.TotalChartDTO">
+		SELECT 
+       
+         CASE d_start_date  WHEN '2022-01' THEN LOANS_SUM ELSE 0 END jan,
+         CASE d_start_date  WHEN '2022-02' THEN LOANS_SUM ELSE 0 END Feb,
+         CASE d_start_date  WHEN '2022-03' THEN LOANS_SUM ELSE 0 END Mar,
+         CASE d_start_date  WHEN '2022-04' THEN LOANS_SUM ELSE 0 END Apr,
+         CASE d_start_date  WHEN '2022-05' THEN LOANS_SUM ELSE 0 END May,
+         CASE d_start_date  WHEN '2022-06' THEN LOANS_SUM ELSE 0 END Jun,
+         CASE d_start_date  WHEN '2022-07' THEN LOANS_SUM ELSE 0 END Jul,
+         CASE d_start_date  WHEN '2022-08' THEN LOANS_SUM ELSE 0 END Aug,
+         CASE d_start_date  WHEN '2022-09' THEN LOANS_SUM ELSE 0 END Sep,
+         CASE d_start_date  WHEN '2022-10' THEN LOANS_SUM ELSE 0 END Oct,
+         CASE d_start_date  WHEN '2022-11' THEN LOANS_SUM ELSE 0 END Nov,
+         CASE d_start_date  WHEN '2022-12' THEN LOANS_SUM ELSE 0 END Dec,
+         D_NAME
+         from(
+		select a.d_name, count(a.d_name) total, to_char( a.d_start_date,'yyyy-MM') as d_start_date,
+		sum(a.d_balance) as loans_sum 
+		from loans a, loans_item b where a.d_name = b.d_name group by a.d_name, to_char( a.d_start_date,'yyyy-MM') ORDER BY D_NAME ) A
+	</select>
+</mapper>

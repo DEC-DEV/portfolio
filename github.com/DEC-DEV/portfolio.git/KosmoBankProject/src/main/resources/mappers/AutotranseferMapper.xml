@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.bank.dao.AutoTransferDAO">
+
+	<!-- 자동이체 조회 캘린더값 뿌리기 -->
+	<select id="calenderList" resultType="com.spring.bank.dto.AutoTransfer_ListDTO">
+		 SELECT * FROM auto_transfer_list
+	</select>
+	<!-- 자동이체 신청 -->
+	<insert id="auto_Transfer_add" parameterType="com.spring.bank.dto.AutoTransferDTO">
+		INSERT INTO auto_transfer 
+		(jd_num, jd_account, jd_type, jd_out_date, jd_auto_money, jd_regist_date, jd_end_date, jd_bank_name, account_num)
+		VALUES
+		((SELECT NVL(MAX(jd_num)+1, 1) FROM auto_transfer ), #{jd_account}, #{jd_type} ,#{jd_out_date}, #{jd_auto_money}, #{jd_regist_date}, #{jd_end_date}, #{jd_bank_name}, #{account_num})
+	</insert>
+	<!-- 당일 이체 진행 -->
+	<select id="auto_List" parameterType="int" resultType="com.spring.bank.dto.AutoTransferDTO">
+		SELECT * FROM auto_transfer WHERE jd_out_date=TO_DATE(#{iday},'dd')
+	</select>
+	<!-- 이체 신청 증가 동작  -->
+	<update id="auto_increament" parameterType="java.util.Map">
+		 UPDATE account_info SET balance=balance + #{money} WHERE account_num = #{account_num}
+	</update>
+	<!-- 이체 신청 감소 동작  -->
+	<update id="auto_decreament" parameterType="java.util.Map">
+		 UPDATE account_info SET balance=balance - #{money} WHERE account_num = #{jd_account}
+	</update>
+	<!-- 히스토리 적용 -->
+	<insert id="auto_history" >
+		INSERT INTO AUTO_TRANSFER_LIST (jd_num, jd_date, jd_success)
+        VALUES((SELECT NVL(MAX(jd_num)+1, 1) FROM AUTO_TRANSFER_LIST), sysdate, '이체 확인')
+	</insert>
+	<!-- 고객 계좌 조회 -->
+	<select id="customer_Account_Search" parameterType="String" resultType="com.spring.bank.dto.AccountDTO">
+	 	SELECT * FROM account_info where id=#{id} AND account_type='미정' and account_name='미정' ORDER BY new_date
+	</select>
+</mapper>

@@ -1,0 +1,45 @@
+{
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Launch Chrome localhost",
+      "type": "chrome",
+      "request": "launch",
+      "port": 9270,
+      "webRoot": "${workspaceFolder}",
+      "url": "http://localhost:80/KosmoBankProject/WEB-INF/views/manager/csCenter/notice_cs/NewFile.html"
+    },
+    {
+      "name": "Launch Chrome localhost (1)",
+      "type": "chrome",
+      "request": "launch",
+      "port": 9213,
+      "webRoot": "${workspaceFolder}",
+      "url": "http://localhost:80/KosmoBankProject/WEB-INF/views/bootstrap_html/login.html"
+    },
+    {
+      "name": "Launch Chrome 127.0.0.1",
+      "type": "chrome",
+      "request": "launch",
+      "port": 9260,
+      "webRoot": "${workspaceFolder}",
+      "url": "http://127.0.0.1:50537/p/KosmoBankProject/src/main/webapp/WEB-INF/views/bootstrap_html/charts.html?_cmAuth\u003degtekpveuu"
+    },
+    {
+      "name": "Launch Chrome localhost (2)",
+      "type": "chrome",
+      "request": "launch",
+      "port": 9212,
+      "webRoot": "${workspaceFolder}",
+      "url": "http://localhost:80/KosmoBankProject/WEB-INF/views/bootstrap_html/forgot-password.html"
+    },
+    {
+      "name": "Launch Chrome localhost (3)",
+      "type": "chrome",
+      "request": "launch",
+      "port": 9232,
+      "webRoot": "${workspaceFolder}",
+      "url": "http://localhost:80/KosmoBankProject/WEB-INF/views/bootstrap_html/tables.html"
+    }
+  ]
+}

@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.bank.dao.AdminCustomerDAO">
+	<!-- 회원수 -->	
+	<select id="accountCnt" resultType="int">	
+		SELECT count(*) as cnt FROM account_info
+	</select>	
+	
+	<!-- 회원 계좌 관리 목록 -->	
+	<select id="account_info" parameterType="java.util.Map" resultType="com.spring.bank.dto.AccountDTO">	
+		SELECT * 
+    	FROM ( 	
+           		SELECT A.*, rownum as rn 	
+           		FROM (	
+                  		SELECT *  	
+                  		FROM account_info  	
+                  		ORDER BY new_date DESC) 	
+                  		A) 	
+     	WHERE rn BETWEEN #{start} AND #{end}	
+	</select>	
+	
+
+	
+	<!-- 계좌이체 내역수 -->
+	<select id="historyCnt" resultType="int">
+		SELECT count(*) as cnt FROM transfer_info
+	</select>
+	
+	<!-- 계좌이체 내역 리스트 -->
+	<select id="account_transfer_history" parameterType="java.util.Map" resultType="com.spring.bank.dto.TransferDTO">	
+		SELECT * 
+    	FROM ( 	
+           		SELECT A.*, rownum as rn 	
+           		FROM (	
+                  		SELECT *       	
+                  		FROM transfer_info  	
+                  		ORDER BY new_date DESC) 	
+                  		A) 	
+     	WHERE rn BETWEEN #{start} AND #{end}	
+	</select>	
+	
+	<!-- 관리자 - 회원 계좌 비밀번호 변경 -->
+	<update id="account_password_update" parameterType="java.util.Map" >
+		UPDATE account_info 
+		SET ACCOUNT_PASSWORD=#{account_password} , ID=#{id}
+		WHERE ACCOUNT_NUM=#{account_num}
+	
+	</update>
+	
+	<!-- 관리자 - 회원 계좌 상태 변경 -->
+	<update id="account_state" parameterType="com.spring.bank.dto.AccountDTO" >
+		UPDATE account_info 
+		SET ACCOUNT_STATE=#{account_state}
+		WHERE ACCOUNT_NUM=#{account_num}
+	</update>
+	
+	
+	<!-- 관리자 - 회원 한도변경 승인 -->
+	<update id="account_limit_ok" parameterType="com.spring.bank.dto.AccountDTO" >
+		UPDATE account_info 
+		SET ACCOUNT_LIMIT=#{account_limit}
+		WHERE ACCOUNT_NUM=#{account_num}
+	</update>
+	
+	<!-- 관리자 - 계좌 정보 검색 -->
+	<select id="account_search" parameterType="java.util.Map" resultType="com.spring.bank.dto.AccountDTO">
+		SELECT * 	
+		FROM account_info  	
+		WHERE ${col} like #{keyword}	
+		ORDER BY account_num DESC	
+	</select>
+
+
+ 	<!-- 관리자 - 계좌이체 검색 정보 카운트 	
+	<select id="historySearchCnt" parameterType="java.util.Map" resultType="int">	
+		SELECT count(*) as cnt FROM transfer_info WHERE ${col} like #{keyword}	
+	</select>	 -->
+	
+	
+	<!-- 관리자 - 계좌이체내역 검색 -->
+	<select	id="account_transfer_history_search" parameterType="java.util.Map" resultType="com.spring.bank.dto.TransferDTO">
+		SELECT *     	
+		FROM transfer_info  
+		WHERE ${col} like #{keyword}	
+		ORDER BY TRANSFER_NUM DESC
+	</select>
+	
+
+</mapper>

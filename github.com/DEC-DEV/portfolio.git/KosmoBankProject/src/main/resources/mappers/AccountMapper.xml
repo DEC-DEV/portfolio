@@ -1,0 +1,230 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.bank.dao.AccountDAO">
+	
+	<select id="my_select_info" parameterType="String" resultType="com.spring.bank.dto.CustomerDTO">
+		select * from member where id = #{id}
+	</select>
+	
+	<insert id="Account_add" parameterType="com.spring.bank.dto.AccountDTO" >
+		insert into account_info(account_num, account_password, name, id, account_type,account_name, balance, new_date, account_limit,account_state ) 
+		values( 
+		(select distinct NVL( (SELECT MAX( TO_NUMBER(substr(account_num,1,(instr(account_num,'-',1,1)-1)))) 
+		from account_info)+1||'-'||#{account_num},'1111-1111-1111') 
+		from account_info),
+		#{account_password},
+		#{name}
+		,#{id},
+		'미정',
+		'미정',
+		0,
+		sysdate,
+		10000000,
+		'정상' )
+	</insert>
+	
+	<select id="Account_All_selected" parameterType="String" resultType="com.spring.bank.dto.AccountDTO">
+		SELECT account_num,account_password,account_state,name,id,account_type,account_name,balance,new_date, account_limit FROM account_info where id = #{id} order by new_date desc
+	</select>
+	<!-- 보유 계좌 조회 1-전체 계좌정보 조회 -->
+	<select id="my_account_all" parameterType="String" resultType="com.spring.bank.dto.AccountDTO">
+		select account_num from account_info where id=#{id}
+	</select>
+	<!-- 이체 시간 조회 -->
+	<select id="transfer_time_select" parameterType="com.spring.bank.dto.AccountDTO" resultType="com.spring.bank.dto.AccountDTO">
+		select account_num , NVL( max(in_out_date),'' ) as IN_OUT_DATE from TRANSFER_INFO  WHERE ID = #{id}  group by account_num order by account_num
+	</select>
+	<!-- 보유 계좌 조회 -->
+	<select id="my_account_All_info" parameterType="String" resultType="com.spring.bank.dto.AccountDTO" >
+select distinct
+		    a.account_num, 
+		    a.account_name, 
+		    a.account_password, 
+		    a.account_state, 
+		    a.name, 
+		    a.id, 
+		    a.account_type,
+		    a.balance, 
+		    a.new_date, 
+		    a.account_limit,
+             ( select max(history) from member where id = #{id} ) as history 
+            from account_info a left outer join transfer_info b on a.id = b.id where a.id=#{id}
+            and a.account_state in ('정상')
+            order by a.account_num
+    </select>
+	
+	<!-- 거래 내역 조회 -->
+	<select id="my_trade_history" parameterType="String" resultType="com.spring.bank.dto.TransferDTO">
+	select a.account_num,
+       TO_CHAR(b.in_out_date,'yy-mm-dd') as transfer_date,
+       TO_CHAR(b.in_out_date,'HH:mm:ss') as transfer_time,
+       b.sender_name,
+       b.recipient_name,
+       b.money,
+       b.in_out,
+       b.out_comment,
+       b.in_comment,
+       b.transfer_balance,
+       (select count(in_out) from transfer_info  where in_out='출금' and account_num= #{account_num} ) t_cnt,
+       (select count(in_out) from transfer_info  where in_out in ('입금','추가납부') and account_num= #{account_num} ) i_cnt
+       from account_info a,transfer_info b
+       where a.account_num = b.account_num 
+       and a.account_num =#{account_num}
+       order by b.in_out_date desc
+	</select>
+	<!--  계좌 1건의 정보를 조회 -->
+	<select  id="account_info_selected" parameterType="String" resultType="com.spring.bank.dto.AccountDTO">
+		select * from account_info where account_num = #{account_num}
+	</select>
+	
+	<!-- 비밀번호 확인 -->
+	<select id="account_pwd_chk" parameterType="java.util.Map" resultType="int">
+		select count(*) from account_info where account_num = #{account_num} and account_password = #{account_pwd}
+	</select>
+	<update id="my_sleep_account" parameterType="String">
+		update account_info set account_state ='해지', delete_date = sysdate where account_num = #{account_num}
+	</update>
+	<!-- 입출금 계좌로 타입 변경 -->
+	<update id="account_type_default" parameterType="String" >
+		<![CDATA[
+		update account_info set account_type='입/출금', account_name='입출금통장' where account_num =#{account_num}
+		]]>
+	</update>
+	
+	<select id="select_trade_history" parameterType="java.util.Map" resultType="com.spring.bank.dto.TransferDTO">
+	<![CDATA[
+		select a.account_num,
+       TO_CHAR(b.in_out_date,'yy-mm-dd') as transfer_date,
+       TO_CHAR(b.in_out_date,'HH:mm:ss') as transfer_time,
+       b.sender_name,
+       b.recipient_name,
+       b.money,
+       b.in_out,
+       b.out_comment,
+       b.in_comment,
+       b.transfer_balance,
+       
+       (select count(in_out) from transfer_info  where in_out='출금' and account_num =#{account_num}
+        and TO_DATE( TO_CHAR(in_out_date,'YYYY/MM/DD' )) >= TO_DATE(#{date_start},'YYYY/MM/DD') 
+	   AND TO_DATE( TO_CHAR(in_out_date,'YYYY/MM/DD' )) < TO_DATE(#{date_end},'YYYY/MM/DD')) t_cnt,
+	   
+       (select count(in_out) from transfer_info  where in_out='입금'and account_num =#{account_num}
+        and TO_DATE( TO_CHAR(in_out_date,'YYYY/MM/DD' )) >= TO_DATE(#{date_start},'YYYY/MM/DD') 
+	   AND TO_DATE( TO_CHAR(in_out_date,'YYYY/MM/DD' )) < TO_DATE(#{date_end},'YYYY/MM/DD')) i_cnt
+	   
+       from account_info a,transfer_info b
+       where a.account_num = b.account_num 
+       and a.account_num =#{account_num}
+       and TO_DATE( TO_CHAR(in_out_date,'YYYY/MM/DD' )) >= TO_DATE(#{date_start},'YYYY/MM/DD') 
+	   AND TO_DATE( TO_CHAR(in_out_date,'YYYY/MM/DD' )) < TO_DATE(#{date_end},'YYYY/MM/DD') AND IN_OUT_DATE IS NOT NULL order by in_out_date desc
+	]]>
+	</select>
+	
+	<select id="account_type_change" parameterType="java.util.Map" resultType="com.spring.bank.dto.AccountDTO" >
+	select distinct
+		    a.account_num, 
+		    a.account_name, 
+		    a.account_password, 
+		    a.account_state, 
+		    a.name, 
+		    a.id, 
+		    a.account_type,
+		    a.balance, 
+		    a.new_date, 
+		    a.account_limit,
+             ( select max(history) from member where id = #{id} ) as history 
+            from account_info a left outer join transfer_info b on a.id = b.id where a.id=#{id}
+            and a.account_state in ('정상')
+            and a.account_type = #{account_type}
+            order by a.account_num DESC,NEW_DATE
+	</select>
+	<!-- 
+		
+	 -->
+	<select id="account_selected_state" parameterType="java.util.Map" resultType="com.spring.bank.dto.AccountDTO" >
+		select distinct
+		    a.account_num, 
+		    a.account_name, 
+		    a.account_password, 
+		    a.account_state, 
+		    a.name, 
+		    a.id, 
+		    a.account_type,
+		    a.balance, 
+		    a.new_date, 
+		    a.account_limit,
+             ( select max(history) from member where id = #{id} ) as history 
+            from account_info a left outer join transfer_info b on a.id = b.id where a.id=#{id}
+            and a.account_state in ('해지','휴면','정지')
+            order by a.account_num
+	</select>
+	<!--  
+		1개의 계좌의 거래내역 조회
+	 -->
+	<select id="select_account_history" parameterType="java.util.Map" resultType="com.spring.bank.dto.AccountDTO" >
+		select distinct 
+			a.account_num,
+			(select max(b.in_out_date) from transfer_info where id=#{id} and account_num = #{account_num} ) as in_out_date,
+			( select max(history) from member where id=#{id}) as history,
+			a.account_state 
+		from account_info a, transfer_info b where a.account_num = #{account_num} order by in_out_date desc
+	
+	</select>
+	
+	<!-- 최근 개설된 계좌번호 가져오기 -->
+	<select id="account_recent_select" parameterType="String" resultType="String">
+		select max(account_num) from account_info where id = #{id}
+	</select>
+	
+	<!-- 한도변경 -->
+	<update id="account_limit_update" parameterType="java.util.Map">
+		update account_info set limit_chk='y', limit_recent = #{ limit_recent} where account_num = #{ account_num }
+	</update>
+	
+	<update id="account_limit_approve" parameterType="String">
+		update account_info set limit_chk='n', limit_recent =0 where account_num = #{ account_num }
+	</update>
+	
+	<!-- 계좌 정렬 [거래내역, 생성일 ] -->
+	<select id="my_account_sorting_history" parameterType="String" resultType="com.spring.bank.dto.AccountDTO" >
+	select distinct
+		    a.account_num, 
+		    a.account_name, 
+		    a.account_password, 
+		    a.account_state, 
+		    a.name, 
+		    a.id, 
+		    a.account_type,
+		    a.balance, 
+		    a.new_date, 
+		    a.account_limit,
+             ( select max(history) from member where id = #{id} ) as history 
+            from account_info a left outer join transfer_info b on a.id = b.id where a.id=#{id}
+            and a.account_state in ('정상')
+            order by b.in_out_date
+	</select>
+	<select id="my_account_sorting_newdate" parameterType="String" resultType="com.spring.bank.dto.AccountDTO" >
+	select distinct
+		    a.account_num, 
+		    a.account_name, 
+		    a.account_password, 
+		    a.account_state, 
+		    a.name, 
+		    a.id, 
+		    a.account_type,
+		    a.balance, 
+		    a.new_date, 
+		    a.account_limit,
+             ( select max(history) from member where id = #{id} ) as history 
+            from account_info a left outer join transfer_info b on a.id = b.id where a.id=#{id}
+            and a.account_state in ('정상')
+            order by a.new_date desc
+	</select>
+	
+	<select id="android_accountInfo" parameterType="String" resultType="com.spring.bank.dto.AccountDTO" >
+		select * from account_info where account_num = #{account_num}
+	</select>
+	
+</mapper>

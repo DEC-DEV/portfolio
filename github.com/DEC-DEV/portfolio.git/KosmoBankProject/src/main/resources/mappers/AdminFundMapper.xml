@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.bank.dao.AdminFundDAO">
+
+<!-- 관리자 펀드 목록 -->
+<select id="fund_list" resultType="com.spring.bank.dto.FundDTO">
+<![CDATA[
+	SELECT * 
+    FROM (
+       SELECT A.*, rownum as rn 
+       FROM (
+           SELECT f_num, id, f_title, f_content, f_start_date, f_end_date, f_target_money,  f_category,  f_approve,  f_name, f_phone,  f_email, f_account,  f_filename 
+           FROM FUND_LIST  
+            ORDER BY f_num DESC
+	         ) A 
+	      ) 
+   WHERE rn >= #{start}  AND rn <= #{end}
+	  ]]>
+</select>
+
+<!-- 관리자 펀드개수 -->
+<select id="fund_cnt" resultType="int">
+	SELECT COUNT(*) as cnt FROM FUND_LIST
+</select>
+
+<!-- 관리자 펀드 승인 -->
+<update id="fund_approve" parameterType="java.util.Map">
+	UPDATE FUND_LIST
+ 	SET show='y', f_approve='승인완료'
+ 	WHERE f_num=#{f_num} AND id=#{id}
+</update>
+
+<!-- 관리자 펀드 거절 -->
+<update id="fund_delete" parameterType="java.util.Map">
+	UPDATE FUND_LIST
+	SET show='n', f_approve='승인거절'
+	WHERE f_num=#{f_num} AND id=#{id}
+</update>
+
+<!-- 펀드 상세페이지 -->
+<select id="fund_detail" resultType="com.spring.bank.dto.FundDTO">
+	SELECT * FROM FUND_LIST
+	WHERE f_num = #{f_num}
+</select>
+
+<!-- 펀드 수정 -->
+<update id="fund_update_action" parameterType="com.spring.bank.dto.FundDTO">
+	UPDATE FUND_LIST
+	SET f_num=#{f_num}, id=#{id}, f_title=#{f_title}, f_content=#{f_content}, f_start_date=#{f_start_date}, f_end_date=#{f_end_date}, 
+        f_target_money=#{f_target_money}, f_name=#{f_name}, f_phone=#{f_phone}, f_email=#{f_email}, f_filename=#{f_filename}
+	WHERE f_num=#{f_num}
+</update>
+
+<!-- 관리자 펀드삭제 -->
+<delete id="fund_delete_action">
+	DELETE FROM FUND_LIST WHERE f_num = #{f_num}
+</delete>
+	
+		
+</mapper>

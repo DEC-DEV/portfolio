@@ -1,0 +1,136 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.spring.bank.dao.TransferDAO">
+
+<!-- 1-1. 이체 전 정보 불러오기 )  로그인한 id의 모든 계좌번호 불러오기 -->
+<select id="call_account_transfer1" parameterType="String" resultType="com.spring.bank.dto.AccountDTO">
+	  select distinct account_num 
+	  from account_info   
+	  where id=#{id} and ACCOUNT_STATE ='정상'
+</select>
+
+<!-- 1-2. 이체 전 정보 불러오기  -->
+<select id="call_account_transfer2" parameterType="String" resultType="com.spring.bank.dto.AccountDTO">
+	select account_limit, balance from account_info 
+	where account_num=#{account_num} 
+</select>
+
+
+<!--2. 이체 전 계좌비번체크  -->
+<select id="account_transfer_ck" parameterType="java.util.Map" resultType="int">
+	select count(*) cnt from account_info where account_num = #{account_num} and  account_password = #{account_password}
+</select>
+
+
+<!--3.  (보낸사람) 이체시 -된 계좌의 잔액  -->	
+<update id="account_transfer_send" parameterType="java.util.Map"  >
+	update account_info set balance= #{balance}
+	where ACCOUNT_NUM = #{account_num}
+</update>	
+
+
+<!--4. 입금되는자 잔액 불러오기  -->
+<select id="call_balance" parameterType="String" resultType="int">
+	select balance from ACCOUNT_INFO 
+	where ACCOUNT_NUM = #{account_num2}
+</select>
+
+<!-- 5. (받는사람) 이체시 +된 계좌의 잔액   -->
+<update id="accoount_transfer_receive" parameterType="java.util.Map">
+	update account_info set balance= #{balance2}
+	where account_num = #{account_num2}
+</update>
+
+<!-- 6. 이체결과(보내는) transfer_info에 저장  --> <!-- dto --> <!--  RECIPIENT_NAME때문에 dto2도필요-->
+<!-- map(dto,dto2)담았으면 #{dto.account_num}??이안될텐데   -->
+<insert id="t_send_saving" parameterType="java.util.Map">
+	 INSERT INTO  transfer_info (TRANSFER_NUM, ACCOUNT_NUM, MONEY, IN_OUT, IN_OUT_DATE, OUT_COMMENT, IN_COMMENT, SENDER_NAME, transfer_balance, id)
+	 VALUES ((SELECT NVL(MAX(TRANSFER_NUM) + 1, 1) FROM transfer_info), #{account_num}, #{money}, '출금', '2022-05-09', #{out_comment}, #{in_comment},
+	 #{sender_name},#{transfer_balance}, #{id})
+</insert>
+
+
+<!-- 7. 이체결과 (받는) transfer_info에 저장  -->  <!-- dto2 --> <!--  -->
+<insert id="t_receive_saving" parameterType="com.spring.bank.dto.TransferDTO" >
+	 insert into  transfer_info (TRANSFER_NUM, ACCOUNT_NUM, MONEY, IN_OUT, IN_OUT_DATE, OUT_COMMENT, IN_COMMENT, SENDER_NAME, transfer_balance, id)
+	 values ((SELECT NVL(MAX(TRANSFER_NUM) + 1, 1) FROM transfer_info), #{account_num}, #{money}, '입금', '2022-05-09', #{out_comment}, #{in_comment},
+	 #{sender_name},#{transfer_balance},((select id from account_info where account_num = #{account_num})) )
+</insert>
+
+<!-- 8-1.적금 납입전 계좌 불러오기 -->
+<select id="call_savings_transfer_1" parameterType="String" resultType="com.spring.bank.dto.Savings_itemDTO">
+	select account_num 
+	from installment_savings
+	where account_num in (select account_num from account_info where id=#{id}) 
+</select>
+
+<!-- 8-2.적금) 셀렉된 계좌의 정보 불러오기 -->
+<select id="call_savings_transfer_2" parameterType="String" resultType="com.spring.bank.dto.Savings_itemDTO">
+	select distinct i.i_type, i.i_balance, a.account_limit i_summary, i.i_name
+	from installment_savings i
+	full outer join account_info a
+	on a.account_num = i.account_num
+	where i.account_num =#{account_num}
+</select>
+
+<!-- 9. 적금 추가 납입 -->
+<update id="savings_add_paid" parameterType="java.util.Map">
+	update installment_savings set i_balance= #{i_balance}
+	where account_num = #{account_num}
+</update>
+
+
+<!-- 10.적금 추가 납입 내역 저장 transfer_info에 저장 -->
+<insert id="t_add_paid_saving" parameterType="java.util.Map" >
+ 	 insert into  transfer_info (TRANSFER_NUM, ACCOUNT_NUM, MONEY, IN_OUT, IN_OUT_DATE )
+	 values ((SELECT NVL(MAX(TRANSFER_NUM) + 1, 1) FROM transfer_info), #{account_num}, #{addMoney}, '추가납부', sysdate)
+</insert>
+
+<!-- 11. 자동이체 조회 ) 전  로그인한 id의 모든 계좌번호 불러오기 -->
+<select id="auto_search_1" parameterType="String" resultType="com.spring.bank.dto.auto_transferDTO">
+	  select distinct account_num 
+	  from auto_transfer   
+	  where account_num in (select account_num from account_info where id=#{id})
+</select>
+
+<!-- 12. 자동이체 조회 ) 셀렉계좌의 자동이체 정보 불러오기  -->
+<select id="auto_search_2" parameterType="String" resultType="com.spring.bank.dto.auto_transferDTO" >
+  select account_num, jd_out_date, jd_auto_money, jd_bank_name, jd_account, jd_num
+  from auto_transfer   
+  where account_num =#{account_num}
+  and show ='y'
+</select>
+
+<!--  13. 자동이체 해지)  -->
+<update id="auto_cancel" parameterType="int">
+  update auto_transfer set show ='n' 
+  where jd_num=#{jd_num}
+</update>
+
+<!-- 14. 한도변경 신청 - 계좌의 한도 조회  -->
+<select id="select_limit" parameterType="String" resultType="String">
+  select account_limit
+  from account_info   
+  where account_num =#{account_num}
+</select>
+
+<!-- 15. 회원 sms용 폰번호 불러오기 -->
+<select id="select_phone" parameterType="String" resultType="String">
+  select phone
+  from member   
+  where id =#{id}
+</select>
+
+<!-- 8-2.적금) 셀렉된 계좌의 정보 불러오기 -->
+<!--
+	<select id="call_savings_transfer_2" parameterType="String" resultType="com.spring.bank.dto.Savings_itemDTO">
+	select distinct i.i_name, i.i_balance, a.account_limit i_summary
+	from installment_savings i
+	full outer join account_info a
+	on a.account_num = i.account_num
+	where i.account_num =#{account_num}
+</select>
+-->
+</mapper>

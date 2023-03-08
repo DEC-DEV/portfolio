@@ -1,0 +1,233 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.spring.bank.dao.ItemDAO">
+	<!-- 적금 상품 LJH 2022-04-18  -->
+	<insert id="savings_Add" parameterType="com.spring.bank.dto.Savings_itemDTO">
+		INSERT INTO savings_item (i_no, i_name, i_summary, i_date, i_rate, i_type, i_min_date, i_max_date, i_notice, i_auto_date)
+		VALUES ((SELECT NVL(MAX(i_no)+1, 1) FROM savings_item), #{i_name}, #{i_summary}, sysdate, #{i_rate}, #{i_type}, #{i_min_date}, #{i_max_date}, #{i_notice}, #{i_auto_date} )
+	</insert> 
+	
+	<select id="savings_item_Count" resultType="int">
+		SELECT COUNT(*) as cnt FROM savings_item
+	</select>
+	
+	<select id="savings_List" parameterType="java.util.Map" resultType="com.spring.bank.dto.Savings_itemDTO">
+		<![CDATA[
+			SELECT * 
+               FROM (
+               SELECT A.*, rownum as rn
+             		  FROM (
+             		  SELECT i_name, i_summary, i_rate, i_type, i_min_date, i_max_date, i_date, i_no
+             			  FROM savings_item b  
+            			  ORDER BY i_no DESC 
+            			  ) A 
+             		  ) 
+               WHERE rn >= #{start} AND rn <= #{end}
+		 ]]>
+	</select>
+	
+	<update id="savings_Update" parameterType="com.spring.bank.dto.Savings_itemDTO">
+		UPDATE savings_item SET i_name=#{i_name}, i_summary=#{i_summary}, i_rate=#{i_rate}, i_type=#{i_type}, i_min_date=#{i_min_date}, i_max_date=#{i_max_date}, i_notice=#{i_notice}, i_auto_date=#{i_auto_date} WHERE i_no=#{i_no}
+	</update>
+	
+	<delete id="savings_Delete" parameterType="int">
+		DELETE FROM savings_item WHERE i_no=#{i_no}
+	</delete>
+	<select id="savings_Detail" resultType="com.spring.bank.dto.Savings_itemDTO" parameterType="int">
+		SELECT * FROM savings_item WHERE i_no=#{i_no}
+	</select>
+	<!-- 적금 상품 LJH 2022-04-18  -->
+	
+	<!-- 예금 상품 LJH 2022-04-20  -->
+	<insert id="deposit_Add" parameterType="com.spring.bank.dto.Deposit_itemDTO">
+		INSERT INTO deposit_item (y_name, y_summary, y_date, y_interest_rate, y_type, y_start_date, y_end_date, y_min_price, y_notice, y_no)
+		VALUES (#{y_name}, #{y_summary}, sysdate, #{y_interest_rate}, #{y_type}, #{y_start_date},#{y_end_date}, #{y_min_price},#{y_notice}, (SELECT NVL(MAX(y_no)+1, 1) FROM deposit_item))
+	</insert>
+	
+	<select id="deposit_item_Count" resultType="int">
+		SELECT COUNT(*) as cnt FROM deposit_item
+	</select>
+	
+	<select id="deposit_List" parameterType="java.util.Map" resultType="com.spring.bank.dto.Deposit_itemDTO">
+		<![CDATA[
+			SELECT * 
+               FROM (
+               SELECT A.*, rownum as rn
+             		  FROM (
+             		  SELECT y_name, y_summary, y_interest_rate, y_type, y_start_date, y_end_date, y_date, y_no
+             			  FROM deposit_item b  
+            			  ORDER BY y_no DESC 
+            			  ) A 
+             		  ) 
+               WHERE rn >= #{start} AND rn <= #{end}
+		 ]]>
+	</select>
+	
+	<update id="deposit_Update" parameterType="com.spring.bank.dto.Deposit_itemDTO">
+			UPDATE deposit_item SET y_name=#{y_name}, y_summary=#{y_summary}, y_interest_rate=#{y_interest_rate}, y_type=#{y_type}, y_start_date=#{y_start_date}, y_end_date=#{y_end_date}, y_notice=#{y_notice}, y_min_price=#{y_min_price} WHERE y_no=#{y_no}	
+	</update>
+	
+	<select id="deposit_Detail" resultType="com.spring.bank.dto.Deposit_itemDTO" parameterType="int">
+		SELECT * FROM deposit_item WHERE y_no=#{y_no}
+	</select>
+	
+	<delete id="deposit_Delete" parameterType="int">
+		DELETE FROM deposit_item WHERE y_no=#{y_no}
+	</delete>
+	<!-- 예금 상품 LJH 2022-04-20  -->
+	
+
+<!-- 사용자 펀드등록 -->
+<insert id="fundinsert" parameterType="com.spring.bank.dto.FundDTO">
+	INSERT INTO FUND_LIST(f_num, id, f_title, f_content, f_start_date, f_filename, f_end_date, f_target_money, f_account, f_category, f_name, f_email, f_phone)
+	VALUES((SELECT NVL(MAX(f_num) + 1, 1) FROM FUND_LIST), #{id}, #{f_title}, #{f_content}, #{f_start_date}, #{f_filename}, #{f_end_date}, #{f_target_money}, #{f_account}, #{f_category}, #{f_name}, #{f_email}, #{f_phone})
+</insert>
+
+<!-- 펀드목록 -->
+<select id="fundlist" resultType="com.spring.bank.dto.FundDTO">
+<![CDATA[
+	SELECT *  
+    FROM ( 
+         SELECT A.*, rownum as rn  
+           FROM (
+          SELECT f_num, id, f_title, f_content, f_start_date, f_end_date, f_target_money,  f_category,  f_approve,  f_name, f_phone,  f_email, f_account,  f_filename
+            FROM FUND_LIST
+            WHERE show='y' 
+          ORDER BY f_num DESC
+         ) A
+	)
+	WHERE rn >= #{start} AND rn <= #{end}
+	]]>
+</select>
+
+
+<!-- 펀드 카테고리별 목록 -->
+<select id="fund_category_list" resultType="com.spring.bank.dto.FundDTO">
+<![CDATA[
+	SELECT *  
+    FROM ( 
+         SELECT A.*, rownum as rn  
+           FROM (
+          SELECT f_num, id, f_title, f_content, f_start_date, f_end_date, f_target_money,  f_category,  f_approve,  f_name, f_phone,  f_email, f_account,  f_filename
+            FROM FUND_LIST
+            WHERE show='y'
+            AND f_category LIKE '%'||#{f_category}||'%'
+          ORDER BY f_num DESC
+         ) A
+	)
+	WHERE rn >= #{start} AND rn <= #{end}
+	]]>
+</select>
+
+<!-- 펀드갯수 -->
+<select id="fundcnt" resultType="int">
+	SELECT COUNT(*) as cnt FROM FUND_LIST
+</select>
+
+<!-- 펀드 상세페이지 -->
+<select id="getfunddetail" resultType="com.spring.bank.dto.FundDTO">
+	SELECT f_num, id, f_title, f_content, f_start_date, f_end_date, f_target_money, f_category, f_approve, f_name, f_phone, f_email, f_account, f_filename
+	FROM FUND_LIST 
+	WHERE f_num = #{f_num}
+</select>
+
+<!-- 펀드구매 name -->
+<select id="name" resultType="String">
+	SELECT distinct name as name
+	FROM member m
+	join fund_member fm
+	on m.id = #{id}
+	WHERE f_num = #{f_num}
+	AND m.id = #{id}
+</select>
+
+<!-- 펀드구매 펀드명  -->
+<select id="title" resultType="String">
+	SELECT f_title as title
+	FROM fund_list 
+	WHERE f_num = #{f_num}
+	AND id = #{id}
+</select>
+
+<!-- 펀드 멤버등록 -->
+<insert id="fundmemberadd" parameterType="com.spring.bank.dto.FundMemberDTO">
+	INSERT INTO FUND_MEMBER(f_num, id, f_account, f_money, f_date)
+	VALUES(#{f_num}, #{id}, #{f_account}, #{f_money}, #{f_date})
+</insert>
+
+<!-- 펀드 멤버 참여수 -->
+<select id="membertotal" resultType="String">
+	SELECT COUNT(*) total 
+	FROM FUND_MEMBER
+	WHERE f_num = #{f_num}
+	  AND id = #{id}
+	
+</select>
+
+<!-- 펀드 총 모인 금액 
+전체 모인 금액으로 수정
+-->
+<select id="totalprice" resultType="String">
+	SELECT SUM(f_money) as price 
+	FROM FUND_MEMBER 
+	WHERE f_num = #{f_num}
+</select>
+
+<!-- 고객 계좌 미정인값 추출 -->
+<select id="customer_Account_Search" resultType="com.spring.bank.dto.AccountDTO" parameterType="String">
+	  SELECT * FROM account_info where id=#{id} AND account_type='미정' and account_name='미정' ORDER BY new_date desc
+</select>
+<!-- 고객 예금 신청자 -->
+<insert id="customer_Deposit_Add" parameterType="com.spring.bank.dto.DepositDTO">
+	 INSERT INTO DEPOSIT(y_num, y_name, account_num, y_interest_rate, y_type, y_balance, y_end_date, y_join_date )
+	 VALUES((SELECT NVL(MAX(y_num) + 1, 1) FROM DEPOSIT), #{y_name} , #{account_num}, #{y_interest_rate}, #{y_type}, #{y_balance}, TO_DATE(#{y_end_date},'yyyy-mm-dd'), sysdate)
+</insert>
+<!-- 고객 예금 신청자 계좌 타입 update -->
+<update id="deposit_Account_Update" parameterType="String">
+	UPDATE account_info SET account_type='예금' WHERE account_num=#{account_num}
+</update>
+<!-- 고객 예금 신청자 계좌 이름 update -->
+<update id="deposit_Account_Name" parameterType="String">
+	UPDATE account_info SET account_name=#{y_name} WHERE account_num=#{account_num}
+</update>
+<!-- 고객 적금 신청자 -->
+<insert id="customer_Savings_Add" parameterType="com.spring.bank.dto.SavingsDTO">
+	 INSERT INTO installment_savings(i_num, i_name, account_num,i_join_date ,i_state, i_rate, i_money, i_balance ,i_type, i_method, i_end_date, i_auto_date)
+	 VALUES((SELECT NVL(MAX(i_num) + 1, 1) FROM installment_savings), #{i_name} , #{account_num}, sysdate, #{i_state}, #{i_rate}, #{i_money}, #{i_balance},#{i_type}, #{i_method} ,TO_DATE(#{i_end_date},'yyyy-mm-dd'), #{i_auto_date})
+</insert>
+<!-- 고객 적금 신청자 계좌 타입 update -->
+<update id="savings_Account_Update" parameterType="String">
+	UPDATE account_info SET account_type='적금' WHERE account_num=#{account_num}
+</update>
+<!-- 고객 적금 신청자 계좌 이름 update -->
+<update id="savings_Account_Name" parameterType="java.util.Map">
+	UPDATE account_info SET account_name=#{i_name} WHERE account_num=#{account_num}
+</update>
+<!-- 고객 예금 계좌 금액 업데이트 -->
+<update id="deposit_Account_Money" parameterType="java.util.Map">
+	UPDATE account_info SET BALANCE = BALANCE + #{y_balance} WHERE account_num=#{account_num}
+</update>
+<!-- 고객 적금 계좌 금액 업데이트 -->
+<update id="savings_Account_Money" parameterType="java.util.Map">
+	UPDATE account_info SET BALANCE = BALANCE + #{balance} WHERE account_num=#{account_num}
+</update> 
+
+<!-- 고객 적금 조회 -->
+<select id="savings_Item" resultType="com.spring.bank.dto.Savings_itemDTO">
+	SELECT * FROM savings_item
+</select>
+<!-- 고객 예금 조회 -->
+<select id="deposit_Item" resultType="com.spring.bank.dto.Deposit_itemDTO">
+	SELECT * FROM deposit_item
+</select>
+<!-- 고객 대출 조회 -->
+<select id="loans_Item" resultType="com.spring.bank.dto.Loans_itemDTO">
+	SELECT * FROM loans_item
+</select>
+
+
+</mapper>

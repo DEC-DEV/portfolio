@@ -2,10 +2,10 @@
 	<Resource author="Container" 
       driverClassName="oracle.jdbc.driver.OracleDriver"
       maxActive="5" maxWait="1000" 
-      name="jdbc/park"
-      username="park" 
-      password="donghan" 
+      name="jdbc/parkdonghan"
+      username="parkdonghan" 
+      password="parkdonghan" 
       type="javax.sql.DataSource" 
-      url="jdbc:oracle:thin:@localhost:1521:xe" 
+      url="jdbc:oracle:thin:@database-1.ct1tb5wkis87.ap-northeast-2.rds.amazonaws.com:1521:ORCL" 
    />
 </context>

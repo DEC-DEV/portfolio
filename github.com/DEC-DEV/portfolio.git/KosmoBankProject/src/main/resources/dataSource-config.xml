@@ -24,20 +24,11 @@
 	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
 	    <property name="driverClassName" value="oracle.jdbc.driver.OracleDriver"/>
 	    <property name="url" value="jdbc:oracle:thin:@//database-1.ct1tb5wkis87.ap-northeast-2.rds.amazonaws.com/ORCL"/>
-	    <property name="username" value="parkdonghan"/>
-	    <property name="password" value="parkdonghan"/>
+	    <property name="username" value=""/>
+	    <property name="password" value=""/>
 	</bean>
 	
-	<!-- <bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-	   <property name="jndiName" value="java:comp/env/jdbc/parkdonghan" />
-	   <property name="lookupOnStartup" value="false" />
-	   <property name="cache" value="true" />
-	   <property name="proxyInterface" value="javax.sql.DataSource" />
-    </bean> -->
-<!-- 	<bean id="dataSource" class="org.springframework.jndi.JndiObjectFactoryBean">
-		<property name="jndiName" value="java:comp/env/jdbc/park" />
-		<property name="resourceRef" value="true" />
-	</bean>  -->
+	
 	
 	<!-- Mybatis 파일 위치 지정, 컨넥션풀 -->
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">

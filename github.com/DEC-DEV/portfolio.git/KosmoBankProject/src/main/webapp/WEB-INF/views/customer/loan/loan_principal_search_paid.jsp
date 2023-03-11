@@ -3,7 +3,6 @@
 <%@ include file="/WEB-INF/views/common/setting.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
-<!-- 김현우 -->
 <head>
     <meta charset="utf-8">
     <title>SEO Master - SEO Agency Website Template</title>

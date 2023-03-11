@@ -38,7 +38,7 @@ public interface CustomerDAO {
 	    // 시큐리티
 		public String pwdCheck(String strId);
 		
-		// 로그인 접속 이력 확인 -2022-04/23( 최웅 )
+		// 로그인 접속 이력 확인 
 		public void update_login_history(String id);
 
 }

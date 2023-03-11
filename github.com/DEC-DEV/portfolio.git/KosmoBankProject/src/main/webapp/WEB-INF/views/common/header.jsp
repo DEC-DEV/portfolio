@@ -159,8 +159,8 @@
                     <div class="bg-white py-2 collapse-inner rounded">
                        <h6 class="collapse-header">채팅상담</h6>
                         <a class="collapse-item" href="${path}/chat.ad">1대1 채팅</a>
-                       <h6 class="collapse-header">고객상담</h6>
-                        <a class="collapse-item" href="${path}/counsel_list_search.ad">고객상담 목록</a>
+                       <!-- <h6 class="collapse-header">고객상담</h6> -->
+                        <%-- <a class="collapse-item" href="${path}/counsel_list_search.ad">고객상담 목록</a> --%>
                         <h6 class="collapse-header">공지사항</h6>
                         <a class="collapse-item" href="${path}/notice_list_search.ad">공지사항 목록</a>
                         <a class="collapse-item" href="${path}/notice_insert.ad">공지사항 등록</a>

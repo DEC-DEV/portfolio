@@ -167,7 +167,7 @@ public class LoanDAOImpl implements LoanDAO{
 	}
 
 
-	/* 규호 - 주석처리 
+	/* 
 	 * @Override <<<<<<< HEAD public void loans_accuont_update(Map<String, String>
 	 * map) { sqlSession.getMapper(LoanDAO.class).loans_accuont_update(map);
 	 * 

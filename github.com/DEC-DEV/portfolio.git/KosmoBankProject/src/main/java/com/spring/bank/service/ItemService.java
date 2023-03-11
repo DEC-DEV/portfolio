@@ -9,7 +9,6 @@ import org.springframework.web.multipart.MultipartHttpServletRequest;
 
 public interface ItemService {
 	
-	//------------------LJH, 2022-04-18-------------------
 	
 	//적금 상품 등록 처리
 	public void savings_Add_Action(HttpServletRequest req, Model model);
@@ -27,10 +26,8 @@ public interface ItemService {
 	public void customer_savings_add(HttpServletRequest req, Model model);
 	public void customer_savings_search(HttpServletRequest req, Model model);
 	
-	//------------------LJH, 2022-04-18--------------------
 	
 	
-	//------------------LJH, 2022-04-19-------------------
 	
 	//예금 상품 등록 처리
 	public void deposit_Add_Action(HttpServletRequest req, Model model);
@@ -43,7 +40,6 @@ public interface ItemService {
 	//예금 상품 상세 
 	public void deposit_Detail_Action(HttpServletRequest req, Model model);
 	
-	//------------------LJH, 2022-04-19--------------------
 
 	
 

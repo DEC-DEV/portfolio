@@ -1,4 +1,8 @@
 eclipse.preferences.version=1
 encoding//src/main/java/com/spring/bank/controller/AdminController.java=UTF-8
+encoding//src/main/java/com/spring/bank/dao/AdminTotalDAO.java=UTF-8
+encoding//src/main/java/com/spring/bank/service/AdminTotalService.java=UTF-8
+encoding//src/main/java/com/spring/bank/service/AdminTotalServiceImpl.java=UTF-8
 encoding//src/main/webapp/WEB-INF/views/customer/account_manage/account_popup1.jsp=UTF-8
 encoding//src/main/webapp/WEB-INF/views/customer/fund/fund_buy.jsp=UTF-8
+encoding/<project>=UTF-8

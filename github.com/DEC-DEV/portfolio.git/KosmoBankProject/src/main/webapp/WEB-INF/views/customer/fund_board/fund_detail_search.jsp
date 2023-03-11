@@ -3,7 +3,6 @@
 <%@ include file="/WEB-INF/views/common/setting.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
-<!-- 김현우 -->
 <head>
     <meta charset="utf-8">
     <title>펀드이야기 상세 조회</title>

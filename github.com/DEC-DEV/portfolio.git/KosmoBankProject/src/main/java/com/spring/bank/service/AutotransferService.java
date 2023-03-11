@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import org.springframework.ui.Model;
 
 import com.spring.bank.dto.AutoTransfer_ListDTO;
-//자동이체 LJH ,2022-04-22
 public interface AutotransferService {
 	//캘린더 리스트 조회
 	public List<AutoTransfer_ListDTO> get_Calender_List();

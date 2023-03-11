@@ -134,8 +134,8 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="col-xl-4 col-lg-6">
+                        </div> 
+                       <div class="col-xl-4 col-lg-6">
                             <div class="card shadow mb-4">
                                 <!-- Card Header - Dropdown -->
                                 <div
@@ -149,7 +149,7 @@
                                     </div>
                                 </div>
                             </div>
-                        </div>
+                        </div> 
                         
            <%--               <div class="col-xl-4 col-lg-6">
                             <div class="card shadow mb-4">

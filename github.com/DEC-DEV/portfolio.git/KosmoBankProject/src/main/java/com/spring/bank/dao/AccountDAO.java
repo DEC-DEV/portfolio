@@ -43,7 +43,7 @@ public interface AccountDAO {
 	// 내 계좌 정보 조회
 	public List<AccountDTO> my_account_All_info(String id);
 
-	// 거래내역 조회 ( 최웅)
+	// 거래내역 조회 
 	public List<TransferDTO> my_trade_history(String account_num);
 	
 	// 계좌 1건에 대한 정보 조회

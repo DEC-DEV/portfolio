@@ -50,7 +50,6 @@ public interface ItemDAO {
 	public int savings_item_Count();
 	// 적금 상품 상세
 	public Savings_itemDTO savings_Detail(int no);
-	//------------------LJH, 2022-04-20--------------------
 	// 예금 상품 등록
 	public int deposit_Add(Deposit_itemDTO dto);
 	// 예금 상품 수정
@@ -63,7 +62,6 @@ public interface ItemDAO {
 	public int deposit_item_Count();
 	// 예금 상품 상세
 	public Deposit_itemDTO deposit_Detail(int no);
-	//------------------LJH, 2022-04-27--------------------
 	//예금 상품 신청 계좌 조회 - 고객계좌
 	public List<AccountDTO> customer_Account_Search(String id);
 	//예금 상품 신청 - 고객
@@ -72,14 +70,12 @@ public interface ItemDAO {
 	public int deposit_Account_Update(String account_num);
 	//예금 상품 신청 고객 계좌 이름 update
 	public int deposit_Account_Name(Map<String, Object> map);
-	//------------------LJH, 2022-04-28--------------------
 	//적금 상품 신청 - 고객
 	public int customer_Savings_Add(SavingsDTO dto);
 	//적금 상품 신청 고객 계좌 타입 update
 	public int savings_Account_Update(String account_num);
 	//적금 상품 신청 고객 계좌 명 update
 	public int savings_Account_Name(Map<String, Object> map);
-	//------------------LJH, 2022-04-29--------------------
 	//적금 상품 신청 - 고객
 	public int deposit_Account_Money(Map<String, Object> map);
 	//적금 상품 신청 - 고객

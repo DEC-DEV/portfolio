@@ -46,8 +46,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
       select 
 		a.d_name,
 		sum(a.d_balance) as loans_sum,
-		to_char( a.d_start_date,'yyyy-MM-dd')  d_start_date
-		from loans a, loans_item b where a.d_name = b.d_name group by a.d_name,to_char( a.d_start_date,'yyyy-MM-dd') ORDER BY D_NAME
+		to_char( a.d_start_date,'YYYY-MM')  d_start_date
+		from loans a, loans_item b where a.d_name = b.d_name group by a.d_name,to_char( a.d_start_date,'YYYY-MM') ORDER BY D_NAME
 		) A
 	</select>
 	<select id="fund_product_blanace" resultType="com.spring.bank.dto.TotalChartDTO">
@@ -67,9 +67,9 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	         A.f_name
 	    from( 
 	      select sum(b.f_money) as fund_sum ,a.f_title as f_name,
-	    TO_CHAR(TO_DATE(f_start_date), 'yyyy-MM-dd') f_start_date
-	    from fund_list a, fund_member b where a.f_num = b.f_num group by a.f_title, TO_CHAR(TO_DATE(f_start_date), 'yyyy-MM-dd') ORDER BY a.f_title ) A
-	</select>
+	    TO_CHAR(TO_DATE(f_start_date, 'YYYY-MM-DD'), 'YYYY-MM') f_start_date
+	    from fund_list a, fund_member b where a.f_num = b.f_num group by a.f_title, TO_CHAR(TO_DATE(f_start_date, 'YYYY-MM-DD'), 'YYYY-MM') ORDER BY a.f_title ) A
+	</select> 
 	
 	<select id="loansTotal" resultType="com.spring.bank.dto.TotalChartDTO">
 		select count(d_name) total,d_name from loans group by d_name
@@ -96,8 +96,8 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
          CASE d_start_date  WHEN '2022-12' THEN LOANS_SUM ELSE 0 END Dec,
          D_NAME
          from(
-		select a.d_name, count(a.d_name) total, to_char( a.d_start_date,'yyyy-MM-dd') as d_start_date,
+		select a.d_name, count(a.d_name) total, to_char( a.d_start_date,'YYYY-MM') as d_start_date,
 		sum(a.d_balance) as loans_sum 
-		from loans a, loans_item b where a.d_name = b.d_name group by a.d_name, to_char( a.d_start_date,'yyyy-MM-dd') ORDER BY D_NAME ) A
+		from loans a, loans_item b where a.d_name = b.d_name group by a.d_name, to_char( a.d_start_date,'YYYY-MM') ORDER BY D_NAME ) A
 	</select>
 </mapper>

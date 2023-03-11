@@ -28,8 +28,6 @@ import com.spring.bank.dto.FundMemberDTO;
 import com.spring.bank.dto.SavingsDTO;
 import com.spring.bank.dto.Savings_itemDTO;
 import com.spring.bank.util.Paging;
-//LJH, 2022-04-18
-//LJH, 2022-04-20
 @Service
 public class ItemServiceImpl implements ItemService {
 
@@ -318,7 +316,7 @@ public class ItemServiceImpl implements ItemService {
 		int i_no = Integer.parseInt(req.getParameter("i_no"));
 		
 		Savings_itemDTO dto = new Savings_itemDTO();
-		// 계좌 정보 불러오기 추가  2022-05-03 최웅
+		// 계좌 정보 불러오기 추가  
 		String id = (String)req.getSession().getAttribute("customerID");
 		List<AccountDTO> list = dao.customer_Account_Search(id);
 		// list 등록
@@ -423,7 +421,7 @@ public class ItemServiceImpl implements ItemService {
 		
 		Deposit_itemDTO  dto = new Deposit_itemDTO();
 		
-		// 계좌 정보 불러오기 추가  2022-05-03 최웅
+		// 계좌 정보 불러오기 추가  
 		String id = (String)req.getSession().getAttribute("customerID");
 		List<AccountDTO> list = dao.customer_Account_Search(id);
 		// list 등록

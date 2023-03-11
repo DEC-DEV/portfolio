@@ -36,7 +36,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
            		FROM (	
                   		SELECT *       	
                   		FROM transfer_info  	
-                  		ORDER BY new_date DESC) 	
+                  		ORDER BY transfer_num DESC) 	
                   		A) 	
      	WHERE rn BETWEEN #{start} AND #{end}	
 	</select>	

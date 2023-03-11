@@ -2,7 +2,6 @@
     pageEncoding="UTF-8"%>
     <%@ include file="/WEB-INF/views/common/setting.jsp" %>
 <!DOCTYPE html>
-<!-- LJH, 2022-04-19  -->
 <html>
 <script type="text/javascript">
 	function goBack() {

@@ -173,8 +173,8 @@ public class AdminCustomerServiceImpl implements AdminCustomerService {
 
 		List<Map<String, Object>> exchangeList = new ArrayList<Map<String, Object>>();
 
-		try {
-			FileInputStream file =  new FileInputStream("C:\\Users\\Kosmo\\git\\BankProjectKosmoLast\\KosmoBankProject\\src\\main\\webapp\\resources\\customer\\excel\\환율.xlsx");
+		try { //        
+			FileInputStream file =  new FileInputStream("/var/app/current/resources/customer/excel/exchange.xlsx");
 			
 			// xlsx 파일 사용 시(2007 이상 버전) 일때 사용
 			XSSFWorkbook workbook = new XSSFWorkbook(file);

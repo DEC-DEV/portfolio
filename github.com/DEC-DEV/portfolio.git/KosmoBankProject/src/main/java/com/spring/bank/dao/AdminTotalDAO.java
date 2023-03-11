@@ -13,23 +13,23 @@ public interface AdminTotalDAO {
 	// chart1
 	public TotalChartDTO productsignTotal();
 	
-	// 차트 2 예적금 신청 금액
+	// 李⑦듃 2 �삁�쟻湲� �떊泥� 湲덉븸
 	public List<TotalChartDTO> deposit_blanace(Map<String,String> map);
 	public List<TotalChartDTO> saving_blanace(Map<String,String> map);
 	
-	// 차트3 대출 신청 상품 금액별 조회
+	// 李⑦듃3 ��異� �떊泥� �긽�뭹 湲덉븸蹂� 議고쉶
 	public  List<TotalChartDTO> loans_product_blanace();
 	
-	// 차트4 펀드 신청 상품별 후원금액 조회
+	// 李⑦듃4 ���뱶 �떊泥� �긽�뭹蹂� �썑�썝湲덉븸 議고쉶
 	public  List<TotalChartDTO> fund_product_blanace();
 	
-	// 대출 상품 비율
+	// ��異� �긽�뭹 鍮꾩쑉
 	public List<TotalChartDTO> loansTotal();
 	
-	// 펀드 상품 비율
+	// ���뱶 �긽�뭹 鍮꾩쑉
 	public List<TotalChartDTO> fundTotal();
 	
-	// 대출 bar Chart Total
+	// ��異� bar Chart Total
 	public List<TotalChartDTO> loansbarChartTotal();
 	
 }

@@ -39,7 +39,7 @@ public class AdminTotalServiceImpl implements AdminTotalService{
 		List<TotalChartDTO> saving_list = AdminTotalDAO.saving_blanace( map);
 		String deposit = new Gson().toJson(deposit_list);
 		String saving =new Gson().toJson(saving_list);
-		System.out.println("제이슨 결과2 = " + deposit );
+		System.out.println("�젣�씠�뒯 寃곌낵2 = " + deposit );
 		System.out.println("?? :"+saving);
 		model.addAttribute("deposit",deposit);
 		model.addAttribute("saving",saving);
@@ -50,55 +50,55 @@ public class AdminTotalServiceImpl implements AdminTotalService{
 	public TotalChartDTO loans_product_blanace(HttpServletRequest req, Model model) {
 		 List<TotalChartDTO> loans_list = AdminTotalDAO.loans_product_blanace();
 		 
-		 // 값 일치 시킴
+		 // 媛� �씪移� �떆�궡
 		 for( int i = 0; i< loans_list.size(); i++ ) {
 			for(TotalChartDTO dtos :  loans_list) {
 				if (dtos.getD_name().equals(loans_list.get(i).getD_name())) {
-					// 1월 
+					// 1�썡 
 					if(dtos.getJan()  <= 0) {
 						dtos.setJan(dtos.getJan()  + loans_list.get(i).getJan() );
 					}
-					// 2월
+					// 2�썡
 					if(dtos.getFeb()  <= 0) {
 						dtos.setFeb(dtos.getFeb()  + loans_list.get(i).getFeb() );
 					}
-					// 3월
+					// 3�썡
 					if(dtos.getMar() <= 0) {
 						dtos.setMar(dtos.getMar()  + loans_list.get(i).getMar() );
 					}
-					// 4월
+					// 4�썡
 					if(dtos.getApr()  <= 0) {
 						dtos.setApr(dtos.getApr()  + loans_list.get(i).getApr() );
 					}
-					// 5월
+					// 5�썡
 					if(dtos.getMay()  <= 0) {
 						dtos.setMay(dtos.getMay()  + loans_list.get(i).getMay() );
 					}
-					// 6월
+					// 6�썡
 					if(dtos.getJun()  <= 0) {
 						dtos.setJun(dtos.getJun()  + loans_list.get(i).getJun() );
 					}
-					// 7월
+					// 7�썡
 					if(dtos.getJul()  <= 0) {
 						dtos.setJul(dtos.getJul()  + loans_list.get(i).getJul() );
 					}
-					// 8월
+					// 8�썡
 					if(dtos.getAug()  <= 0) {
 						dtos.setAug(dtos.getAug()  + loans_list.get(i).getAug() );
 					}
-					// 9월
+					// 9�썡
 					if(dtos.getSep()  <= 0) {
 						dtos.setSep(dtos.getSep()  + loans_list.get(i).getSep() );
 					}
-					// 10월
+					// 10�썡
 					if(dtos.getOct()  <= 0) {
 						dtos.setOct(dtos.getOct()  + loans_list.get(i).getOct() );
 					}
-					// 11월
+					// 11�썡
 					if(dtos.getNov()  <= 0) {
 						dtos.setNov(dtos.getNov()  + loans_list.get(i).getNov() );
 					}
-					// 12월
+					// 12�썡
 					if(dtos.getDec()  <= 0) {
 						dtos.setDec(dtos.getDec()  + loans_list.get(i).getDec() );
 					}
@@ -106,7 +106,7 @@ public class AdminTotalServiceImpl implements AdminTotalService{
 			}
 		 }
 		 
-		 // 중복 제거
+		 // 以묐났 �젣嫄�
 //		 List<TotalChartDTO> list2  = AdminTotalDAO.loans_product_blanace();
 //		 for (TotalChartDTO dto : loans_list) {
 //			for( int i = 0; i<list2.size(); i++ ) {
@@ -119,10 +119,10 @@ public class AdminTotalServiceImpl implements AdminTotalService{
 //				}
 //			}
 //		 }
-//		 System.out.println("중복제거 : "+list2.size());
-//		 System.out.println("대출 : "+list2);
+//		 System.out.println("以묐났�젣嫄� : "+list2.size());
+//		 System.out.println("��異� : "+list2);
 		 
-		 // json으로 변경
+		 // json�쑝濡� 蹂�寃�
 //		 loans_list.remove(6);
 		 for(TotalChartDTO dto :loans_list) {
 			 System.out.println(dto.toString());
@@ -136,7 +136,7 @@ public class AdminTotalServiceImpl implements AdminTotalService{
 	public TotalChartDTO fund_product_blanace(HttpServletRequest req, Model model) {
 		List<TotalChartDTO> fund_list = AdminTotalDAO.fund_product_blanace();
 		 String fund =new Gson().toJson(fund_list);
-		 System.out.println("펀드 :"+fund);
+		 System.out.println("���뱶 :"+fund);
 		 model.addAttribute("fund",fund);
 		return null;
 	}

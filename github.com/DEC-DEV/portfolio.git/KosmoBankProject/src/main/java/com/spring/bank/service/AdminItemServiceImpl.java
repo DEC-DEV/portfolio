@@ -23,7 +23,7 @@ public class AdminItemServiceImpl implements AdminItemService{
 	AdminItemDAO dao;
 
 	//----------------------- [ 대출 ] -----------------------------------
-	// 관리자 대출 상품 등록 - 현우
+	// 관리자 대출 상품 등록 
 	@Override
 	public void loan_pro_add(HttpServletRequest req, Model model) {
 		System.out.println("adminItemServiceImpl - loan_pro_add");

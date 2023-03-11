@@ -103,7 +103,7 @@
                 <a href="${path }/counsel_list_search.do" class="nav-link dropdown-toggle" data-bs-toggle="dropdown">고객센터</a>
                 <div class="dropdown-menu m-0">
                     <a href="${path }/chat.do" class="nav-item nav-link">채팅상담</a>
-                    <a href="${path }/counsel_list_search.do" class="nav-item nav-link">고객상담</a>
+                    <%-- <a href="${path }/counsel_list_search.do" class="nav-item nav-link">고객상담</a> --%>
                     <a href="${path }/notice_list_search.do" class="nav-item nav-link">공지사항</a>
                 </div>
             </div>            

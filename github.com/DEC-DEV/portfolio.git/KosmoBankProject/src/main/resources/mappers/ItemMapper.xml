@@ -5,7 +5,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
 <mapper namespace="com.spring.bank.dao.ItemDAO">
-	<!-- 적금 상품 LJH 2022-04-18  -->
 	<insert id="savings_Add" parameterType="com.spring.bank.dto.Savings_itemDTO">
 		INSERT INTO savings_item (i_no, i_name, i_summary, i_date, i_rate, i_type, i_min_date, i_max_date, i_notice, i_auto_date)
 		VALUES ((SELECT NVL(MAX(i_no)+1, 1) FROM savings_item), #{i_name}, #{i_summary}, sysdate, #{i_rate}, #{i_type}, #{i_min_date}, #{i_max_date}, #{i_notice}, #{i_auto_date} )
@@ -40,9 +39,7 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<select id="savings_Detail" resultType="com.spring.bank.dto.Savings_itemDTO" parameterType="int">
 		SELECT * FROM savings_item WHERE i_no=#{i_no}
 	</select>
-	<!-- 적금 상품 LJH 2022-04-18  -->
 	
-	<!-- 예금 상품 LJH 2022-04-20  -->
 	<insert id="deposit_Add" parameterType="com.spring.bank.dto.Deposit_itemDTO">
 		INSERT INTO deposit_item (y_name, y_summary, y_date, y_interest_rate, y_type, y_start_date, y_end_date, y_min_price, y_notice, y_no)
 		VALUES (#{y_name}, #{y_summary}, sysdate, #{y_interest_rate}, #{y_type}, #{y_start_date},#{y_end_date}, #{y_min_price},#{y_notice}, (SELECT NVL(MAX(y_no)+1, 1) FROM deposit_item))
@@ -78,7 +75,6 @@ PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
 	<delete id="deposit_Delete" parameterType="int">
 		DELETE FROM deposit_item WHERE y_no=#{y_no}
 	</delete>
-	<!-- 예금 상품 LJH 2022-04-20  -->
 	
 
 <!-- 사용자 펀드등록 -->

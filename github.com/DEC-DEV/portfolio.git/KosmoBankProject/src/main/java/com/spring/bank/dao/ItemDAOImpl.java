@@ -26,7 +26,6 @@ public class ItemDAOImpl implements ItemDAO {
 	@Autowired
 	ItemDAO dao;
 	
-	/*   적금 상품 LJH 2022-04-18   */
 	
 	// 적금 상품 등록
 	// 펀드 등록
@@ -153,7 +152,6 @@ public class ItemDAOImpl implements ItemDAO {
 		return dto;
 	}
 	
-	/*   예금 상품 LJH 2022-04-20   */
 	// 예금 상품 추가
 	@Override
 	public int deposit_Add(Deposit_itemDTO dto) {
@@ -221,7 +219,6 @@ public class ItemDAOImpl implements ItemDAO {
 		return dto;
 	}
 
-// 2022-04-27 LJH
 	// 예금 상품 신청 - 고객
 	@Override
 	public int customer_Deposit_Add(DepositDTO dto) {

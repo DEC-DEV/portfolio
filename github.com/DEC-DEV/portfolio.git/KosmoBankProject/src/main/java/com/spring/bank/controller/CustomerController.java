@@ -76,7 +76,7 @@ public class CustomerController {
 	@Autowired
 	LoanServiceImpl loanService;
 
-	// 04-21 최웅 conlict로 주석처리 -> AdminCsCenterServiceImpl adminCsCenterService;
+	// conlict로 주석처리 -> AdminCsCenterServiceImpl adminCsCenterService;
 	// private CsCenterSerivceImpl adminCsCenterService;
 
 	// 이체 관리
@@ -206,7 +206,7 @@ public class CustomerController {
 		
 		
 	}
-	// 대출 상품 리스트 (현우 )
+	// 대출 상품 리스트 
 
 	@RequestMapping("loan_pro_list.do")
 	public String loan_pro_list(HttpServletRequest req, Model model) {
@@ -215,7 +215,7 @@ public class CustomerController {
 		return "customer/loan/loan_pro_list";
 	}
 
-	// 대출 상품 상세, 현우
+	// 대출 상품 상세
 	@RequestMapping("loan_pro_detail.do")
 	public String loan_pro_detail() {
 		return "customer/loan/loan_pro_detail";
@@ -620,7 +620,7 @@ public class CustomerController {
 			return "redirect:my_account.do?account_sleep="+sleep;
 		}
 	}
-	// 펀드 리스트, ung 규호수정
+	// 펀드 리스트
 	@RequestMapping("fund_list.do")
 	public String fund_list(HttpServletRequest req, Model model) {
 		logger.info("fund_list");
@@ -714,7 +714,7 @@ public class CustomerController {
 	}
 	// =========================== 펀드 ======================
 
-	// 펀드 등록화면, ung 규호수정
+	// 펀드 등록화면
 	@RequestMapping("fund_add.do")
 	public String fund_add(HttpServletRequest req, Model model) {
 		logger.info("fund_add");
@@ -722,7 +722,7 @@ public class CustomerController {
 		return "customer/fund/fund_add";
 	}
 
-	// 펀드 등록, ung 규호수정
+	// 펀드 등록
 	@RequestMapping("fund_addaction.do")
 	public String fund_addaction(MultipartHttpServletRequest req, Model model) throws IOException {
 		logger.info("fund_addaction");
@@ -937,7 +937,7 @@ public class CustomerController {
 
 	}
 
-	// 적금 상품 리스트, 현우 - LJH
+	// 적금 상품 리스트
 	@RequestMapping("savings_pro_list.do")
 	public String savings_pro_list(HttpServletRequest req, Model model) {
 
@@ -946,7 +946,7 @@ public class CustomerController {
 		return "customer/savings/savings_pro_list";
 	}
 
-	// 적금 신청 하기, 현우 - LJH
+	// 적금 신청 하기
 	@RequestMapping("savings_order_add.do")
 	public String savings_pro_order(HttpServletRequest req, Model model) {
 		String id = (String)req.getSession().getAttribute("customerID");
@@ -974,7 +974,7 @@ public class CustomerController {
 		itemService.deposit_Detail_Action(req, model);
 		return "customer/deposit/deposit_pro_order";
 	}
-	//예금 상품 신청 화면 , LJH 2022-04-24
+	//예금 상품 신청 화면 
 	@RequestMapping("deposit_order_add.do")
 	public String deposit_order_add(HttpServletRequest req, Model model) {
 		
@@ -996,7 +996,7 @@ public class CustomerController {
 
 	// ======================== 환율 ===========================
 
-	// 환율 정보,동한
+	// 환율 정보
 	@RequestMapping("exchange_detail.do")
 	public String exchange_detail(HttpServletRequest req, Model model) {
 		logger.info("exchange_detail");
@@ -1004,7 +1004,7 @@ public class CustomerController {
 	return "customer/exchange/exchange_detail";
 	}	
 	
-	// 환율 계산기,동한
+	// 환율 계산기
 	@RequestMapping("exchange_calculator.do")
 	public String exchange_calculator(HttpServletRequest req, Model model) {
 		logger.info("exchange_calculator");
@@ -1047,7 +1047,7 @@ public class CustomerController {
 		return "customer/search_transfer/auto_transfer/search_cancel_ajax";
 	}
 
-	// 자동이체 신청 //LJH, 2022-04-21
+	// 자동이체 신청 
 	@RequestMapping("auto_transfer_apply.do")
 	public String auto_transfer_apply(HttpServletRequest req, Model model) {
 		logger.info("[url ==> auto_transfer_apply.do]");
@@ -1061,7 +1061,7 @@ public class CustomerController {
 		}
 	}
 
-	// 이체 예약 //LJH, 2022-04-21
+	// 이체 예약 
 
 	//이체 내역 ===================================================================
 	@RequestMapping("auto_transfer_add.do")
@@ -1075,7 +1075,7 @@ public class CustomerController {
 			return "redirect:auto_search.do";
 		}
 	}
-	//이체 확인 //LJH, 2022-04-21
+	//이체 확인 
 
 	@RequestMapping("transfer_reservation.do")
 	public String transfer_reservation(HttpServletRequest req, Model model) {
@@ -1098,7 +1098,7 @@ public class CustomerController {
 	}
 
 	// -------------- 한도 변경 --------------
-	// 한도 변경 신청 1 (성주) 
+	// 한도 변경 신청 1 
 	@RequestMapping("max_apply.do")
 	public String max_apply_1(HttpServletRequest req, Model model) {
 		logger.info("[url ==> max_apply.do]");
@@ -1112,7 +1112,7 @@ public class CustomerController {
 		}
 	}
 	
-	// 한도 변경 신청2 - 한도불러오기 (성주) 
+	// 한도 변경 신청2 - 한도불러오기 
 	@RequestMapping("max_apply_call.do")
 	public String max_apply_2(HttpServletRequest req, Model model) {
 		logger.info("[url ==> max_apply_call.do]");
@@ -1121,7 +1121,7 @@ public class CustomerController {
 		return "customer/search_transfer/max_apply/max_apply_ajax";
 	}
 	
-	// 한도 변경 신청 처리 + 비번체크 (성주) 
+	// 한도 변경 신청 처리 + 비번체크 
 	@RequestMapping("max_apply_ck.do")
 	public String max_apply_ck(HttpServletRequest req, Model model) {
 		logger.info("[url ==> max_apply_ck.do]");

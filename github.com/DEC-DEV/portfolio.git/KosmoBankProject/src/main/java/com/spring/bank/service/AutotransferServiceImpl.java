@@ -24,7 +24,6 @@ import com.spring.bank.util.Sms;
 @Service
 @EnableScheduling
 public class AutotransferServiceImpl implements AutotransferService{
-	//LJH, 2022-04-21
 	
 	@Autowired
 	AutoTransferDAO dao;

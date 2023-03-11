@@ -8,24 +8,24 @@ import com.spring.bank.dto.TotalChartDTO;
 
 public interface AdminTotalService {
 	
-	// 차트1 상품 가입자 비율
+	// 李⑦듃1 �긽�뭹 媛��엯�옄 鍮꾩쑉
 	public TotalChartDTO productsignTotal(HttpServletRequest req, Model model);
 	
-	// 차트 2 예적금 신청 금액
+	// 李⑦듃 2 �삁�쟻湲� �떊泥� 湲덉븸
 	public TotalChartDTO product_blanace(HttpServletRequest req, Model model);
 	
-	// 차트3 대출 신청 상품 금액별 조회
+	// 李⑦듃3 ��異� �떊泥� �긽�뭹 湲덉븸蹂� 議고쉶
 	public TotalChartDTO loans_product_blanace(HttpServletRequest req, Model model);
 	
-	// 차트4 펀드 신청 상품별 후원금액 조회
+	// 李⑦듃4 ���뱶 �떊泥� �긽�뭹蹂� �썑�썝湲덉븸 議고쉶
 	public TotalChartDTO fund_product_blanace(HttpServletRequest req, Model model);
 	
-	// 대출 상품 비율
+	// ��異� �긽�뭹 鍮꾩쑉
 	public void loansTotal(HttpServletRequest req, Model model);
 	
-	// 펀드 상품 비율
+	// ���뱶 �긽�뭹 鍮꾩쑉
 	public void fundTotal(HttpServletRequest req, Model model);
 	
-	// 대출 bar 차트
+	// ��異� bar 李⑦듃
 	public void loansbarChartTotal(HttpServletRequest req, Model model);
 }

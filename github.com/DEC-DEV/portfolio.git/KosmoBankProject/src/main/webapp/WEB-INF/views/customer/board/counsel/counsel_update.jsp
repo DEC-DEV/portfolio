@@ -4,7 +4,6 @@
 <%@ include file="/WEB-INF/views/common/setting.jsp" %>
 <!DOCTYPE html>
 <html lang="en">
-<!-- 김현우 -->
 <head>
     <meta charset="utf-8">
     <title>상담글 수정</title>

@@ -7,7 +7,7 @@ import org.springframework.ui.Model;
 public interface AdminItemService {
 	
 	// --------------------- [ 대출 ] ----------------------------
-	// 관리자 대출 상품 등록 - 현우
+	// 관리자 대출 상품 등록 
 	public void loan_pro_add(HttpServletRequest req, Model model);
 	
 	// 관리자 대출 상품 조회

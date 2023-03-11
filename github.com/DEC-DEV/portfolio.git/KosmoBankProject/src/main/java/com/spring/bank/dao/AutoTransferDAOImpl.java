@@ -12,7 +12,7 @@ import com.spring.bank.dto.AccountDTO;
 import com.spring.bank.dto.AutoTransferDTO;
 import com.spring.bank.dto.AutoTransfer_ListDTO;
 
-//LJH, 2022-04-21
+
 @Repository
 public class AutoTransferDAOImpl implements AutoTransferDAO{
 

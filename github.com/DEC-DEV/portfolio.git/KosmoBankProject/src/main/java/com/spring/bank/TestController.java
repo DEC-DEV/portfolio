@@ -5,7 +5,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-// 김현우 테스트용 임시 컨트롤러
+//테스트용 임시 컨트롤러
 @Controller
 public class TestController {
 	
